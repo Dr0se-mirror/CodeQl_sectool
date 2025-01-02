@@ -1,0 +1,3 @@
+dependencies:
+  codeql/csharp-all: '*'
+warnOnImplicitThis: true

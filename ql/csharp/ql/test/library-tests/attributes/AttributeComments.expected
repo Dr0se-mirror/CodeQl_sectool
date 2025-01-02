@@ -1,0 +1,4 @@
+| attributes.cs:11:12:11:24 | [assembly: AssemblyTitle(...)] | attributes.cs:8:1:10:31 | // ... |
+| attributes.cs:23:12:23:21 | [assembly: ComVisible(...)] | attributes.cs:20:1:22:58 | // ... |
+| attributes.cs:26:12:26:15 | [assembly: Guid(...)] | attributes.cs:25:1:25:84 | // ... |
+| attributes.cs:38:12:38:26 | [assembly: AssemblyVersion(...)] | attributes.cs:28:1:37:39 | // ... |

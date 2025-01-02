@@ -1,0 +1,4 @@
+import python
+import TestUtilities.dataflow.DataflowQueryTest
+import semmle.python.security.dataflow.CommandInjectionQuery
+import FromTaintTrackingConfig<CommandInjectionConfig>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeQL 上传与分析</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            height: 100vh; /* 使页面高度占满全屏 */
+        }
+        .container {
+            display: flex;
+            width: 100%; /* 宽度占满全屏 */
+            background-color: #ffffff;
+            border-radius: 8px; /* 圆角 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 阴影 */
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            border-right: 2px solid #495057; /* 添加右边框 */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* 靠上对齐 */
+        }
+        .sidebar h5 {
+            margin-bottom: 20px;
+            font-size: 1.5em; /* 放大功能菜单字样 */
+            text-align: center; /* 标题居中 */
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+            margin-bottom: 10px; /* 增加链接之间的间距 */
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* 靠上对齐 */
+            align-items: stretch; /* 横向铺满 */
+            overflow-y: auto;
+        }
+        .header {
+            background-color: #007bff; /* 蓝色条 */
+            color: white;
+            padding: 15px;
+            font-size: 1.5em; /* 主功能标题 */
+            margin-bottom: 10px; /* 与下方内容的间距 */
+            border-radius: 5px; /* 圆角 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影 */
+        }
+        .form-control {
+            width: 100%; /* 输入框宽度 */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 美化输入框 */
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%; /* 按钮宽度 */
+            margin-bottom: 10px; /* 增加按钮之间的间距 */
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        .status-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none; /* 默认隐藏 */
+            width: 100%; /* 状态信息宽度 */
+            text-align: center; /* 状态信息文本居中 */
+        }
+        .status-message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .section-title {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            text-align: left; /* 标题左对齐 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h5>功能菜单</h5>
+            <a href="#" id="uploadTab">上传数据库</a>
+            <a href="#" id="analyzeTab">分析数据库</a>
+        </div>
+        <div class="content">
+            <div id="uploadSection">
+                <div class="header">上传 ZIP 文件</div> <!-- 蓝色条 -->
+                <input type="file" id="fileInput" class="form-control">
+                <select id="languageSelect" class="form-control">
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="csharp">C#</option>
+                    <option value="cpp">C++</option>
+                    <option value="go">Go</option>
+                </select>
+                <button id="uploadButton" class="btn btn-primary">上传</button>
+                <div id="status" class="status-message"></div>
+            </div>
+
+            <div id="analyzeSection" style="display: none;">
+                <div class="header">选择已有数据库</div> <!-- 蓝色条 -->
+                <select id="databaseSelect" class="form-control"></select>
+                <button id="analyzeButton" class="btn btn-success">分析</button>
+                <div id="analyzeStatus" class="status-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('uploadTab').onclick = function() {
+            document.getElementById('uploadSection').style.display = 'block';
+            document.getElementById('analyzeSection').style.display = 'none';
+            document.getElementById('status').style.display = 'none';  // 隐藏状态信息
+        };
+
+        document.getElementById('analyzeTab').onclick = function() {
+            document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('analyzeSection').style.display = 'block';
+            loadDatabases();  // 加载数据库列表
+            document.getElementById('analyzeStatus').style.display = 'none';  // 隐藏状态信息
+        };
+
+        document.getElementById('uploadButton').onclick = function() {
+            const fileInput = document.getElementById('fileInput');
+            const languageSelect = document.getElementById('languageSelect');
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('language', languageSelect.value);  // 使用下拉选择的语言
+
+            // 显示上传中状态
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerText = "上传并解析数据库中...";
+            statusDiv.className = "status-message"; // 清除之前的样式
+            statusDiv.style.display = "block"; // 显示状态信息
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    statusDiv.innerText = data.error;
+                    statusDiv.classList.add("error");
+                } else {
+                    statusDiv.innerText = "解析数据库成功";
+                    statusDiv.classList.add("success");
+                }
+            })
+            .catch(error => {
+                console.error('上传失败:', error);
+                statusDiv.innerText = `上传失败: ${error.message}`;
+                statusDiv.classList.add("error");
+            });
+        };
+
+        document.getElementById('analyzeButton').onclick = function() {
+            const databaseName = document.getElementById('databaseSelect').value;
+
+            const analyzeStatusDiv = document.getElementById('analyzeStatus');
+            analyzeStatusDiv.innerText = "分析中...";
+            analyzeStatusDiv.className = "status-message"; // 清除之前的样式
+            analyzeStatusDiv.style.display = "block"; // 显示状态信息
+
+            fetch('/analyze_database', {  // 更新为新的 API 路径
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ database: databaseName }) // 去掉查询路径
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    analyzeStatusDiv.innerText = data.error;
+                    analyzeStatusDiv.classList.add("error");
+                } else {
+                    analyzeStatusDiv.innerText = data.message;
+                    analyzeStatusDiv.classList.add("success");
+                }
+            })
+            .catch(error => {
+                console.error('分析失败:', error);
+                analyzeStatusDiv.innerText = `分析失败: ${error.message}`;
+                analyzeStatusDiv.classList.add("error");
+            });
+        };
+
+        function loadDatabases() {
+            fetch('/choose_databases')  // 更新为新的 API 路径
+                .then(response => response.json())
+                .then(databases => {
+                    const databaseSelect = document.getElementById('databaseSelect');
+                    databaseSelect.innerHTML = '';  // 清空现有选项
+                    databases.forEach(db => {
+                        const option = document.createElement('option');
+                        option.value = db;
+                        option.textContent = db;
+                        databaseSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('加载数据库失败:', error);
+                });
+        }
+
+        // 默认显示上传部分
+        document.getElementById('uploadTab').click();
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../../../.."
+		},
+		{
+			"name": "[micro-service-seclab-database source archive]",
+			"uri": "codeql-zip-archive://1-57/d:\\CodeQL\\database\\micro-service-seclab-database\\src.zip"
+		}
+	],
+	"settings": {}
+}
