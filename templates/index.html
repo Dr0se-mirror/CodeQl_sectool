@@ -149,6 +149,8 @@
                 <button id="analyzeButton" class="btn btn-success">分析</button>
                 <div id="analyzeStatus" class="status-message"></div>
             </div>
+            <h2>分析结果</h2>
+            <ul id="resultList"></ul>
         </div>
     </div>
 
@@ -252,6 +254,46 @@
 
         // 默认显示上传部分
         document.getElementById('uploadTab').click();
+        async function analyzeDatabase() {
+    const database = document.getElementById('databaseSelect').value;
+    const response = await fetch('/analyze', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ database: database }),
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+        const resultFile = result.result_file;
+        alert(result.message);
+        // 提供下载链接
+        const downloadLink = document.createElement('a');
+        downloadLink.href = `/download_result/${resultFile}`;
+        downloadLink.innerText = '下载分析结果';
+        document.body.appendChild(downloadLink);
+    } else {
+        alert(result.message);
+    }
+
+}
+        const resultList = document.getElementById('resultList');
+         // 获取分析结果列表
+        fetch('/results')
+            .then(response => response.json())
+            .then(data => {
+                resultList.innerHTML = '';
+                data.results.forEach(result => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = `/download_result/${result}`;
+                    a.textContent = result;
+                    a.download = result;
+                    li.appendChild(a);
+                    resultList.appendChild(li);
+                });
+            });
     </script>
 </body>
 </html>

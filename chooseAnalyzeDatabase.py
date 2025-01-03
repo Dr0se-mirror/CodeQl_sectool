@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, send_file
 import os
 import subprocess
 import glob
@@ -64,3 +64,13 @@ def analyze_database_route():
             error_message = f"分析失败: {e.stderr.decode()}"
             print(error_message)
             return {'message': '代码未发现问题'}, 400  # 返回分析错误信息
+
+# 新增路由：下载结果文件
+@choose_analyze_bp.route('/download_result/<filename>', methods=['GET'])
+def download_result(filename):
+    """下载指定的分析结果文件"""
+    results_folder = './results/'
+    file_path = os.path.join(results_folder, filename)
+    if not os.path.exists(file_path):
+        return {'error': '文件不存在'}, 404
+    return send_file(file_path, as_attachment=True)

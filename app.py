@@ -1,6 +1,7 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, jsonify
 from uploadCreateDatabase import upload_file, list_databases, analyze_database
 from chooseAnalyzeDatabase import choose_analyze_bp  # 导入新的蓝图
+import os
 
 app = Flask(__name__)
 app.register_blueprint(choose_analyze_bp)  # 注册蓝图
@@ -25,6 +26,15 @@ def analyze():
     database_name = data.get('database')
     queries_path = data.get('queries_path')
     return analyze_database(database_name, queries_path)
+
+@app.route('/results', methods=['GET'])
+def list_results():
+    """列出所有分析结果文件"""
+    results_folder = './results/'
+    if not os.path.exists(results_folder):
+        return jsonify({'error': '结果文件夹不存在'}), 400
+    results = [f for f in os.listdir(results_folder) if os.path.isfile(os.path.join(results_folder, f))]
+    return jsonify({'results': results}), 200
 
 if __name__ == '__main__':
     app.run(port=3000)
