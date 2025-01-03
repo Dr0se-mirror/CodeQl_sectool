@@ -1,3 +1,0 @@
-build --repo_env=CC=clang --repo_env=CXX=clang++ --copt="-std=c++17"
-
-try-import %workspace%/local.bazelrc

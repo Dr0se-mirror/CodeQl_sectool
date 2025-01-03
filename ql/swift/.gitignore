@@ -1,5 +1,0 @@
-# directory created by bazel run //swift:create-extractor-pack
-/extractor-pack
-
-# output files created by running tests
-*.o
