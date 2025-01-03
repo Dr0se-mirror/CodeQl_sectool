@@ -1,8 +1,0 @@
-name: codeql/ruby-tests
-groups: [ruby, test]
-dependencies:
-  codeql/ruby-queries: "*"
-  codeql/ruby-examples: "*"
-  codeql/ruby-all: "*"
-extractor: ruby
-tests: .

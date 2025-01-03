@@ -1,8 +1,0 @@
-name: codeql/csharp-solorigate-all
-version: 1.2.4
-groups:
-    - csharp
-    - solorigate
-library: true
-dependencies:
-    codeql/csharp-all: "*"

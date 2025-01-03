@@ -1,4 +1,0 @@
-name: codeql/javascript-downgrades
-groups: javascript
-downgrades: .
-library: true

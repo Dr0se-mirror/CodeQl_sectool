@@ -1,6 +1,0 @@
----
-dependencies:
-  codeql/javascript-experimental-atm-model:
-    version: 0.2.0
-compiled: false
-lockVersion: 1.0.0
