@@ -1,4 +1,0 @@
-package subdir
-
-func Test() {
-}

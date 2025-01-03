@@ -1,3 +1,0 @@
-# github.com/msteinert/pam v1.0.0
-## explicit
-github.com/msteinert/pam

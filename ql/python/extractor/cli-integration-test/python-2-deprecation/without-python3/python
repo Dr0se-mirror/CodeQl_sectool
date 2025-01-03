@@ -1,4 +1,0 @@
-echo "Attempted to run:"
-echo "  python $@"
-echo "Failing instead."
-exit 127

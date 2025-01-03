@@ -1,3 +1,0 @@
-import os
-
-SECRET_KEY = "REDASH_COOKIE_SECRET"

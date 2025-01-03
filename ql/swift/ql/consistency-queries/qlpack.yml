@@ -1,5 +1,0 @@
-name: codeql/swift-consistency-queries
-groups: [swift, test, consistency-queries]
-dependencies:
-  codeql/swift-all: ${workspace}
-warnOnImplicitThis: true

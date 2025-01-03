@@ -1,1 +1,0 @@
-// The "Go files were found but not processed" diagnostic should not be emitted because there are no go files

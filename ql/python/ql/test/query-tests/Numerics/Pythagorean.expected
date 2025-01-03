@@ -1,3 +1,0 @@
-| pythagorean_test.py:6:12:6:28 | ControlFlowNode for sqrt() | Pythagorean calculation with sub-optimal numerics. |
-| pythagorean_test.py:9:12:9:26 | ControlFlowNode for sqrt() | Pythagorean calculation with sub-optimal numerics. |
-| pythagorean_test.py:14:12:14:24 | ControlFlowNode for sqrt() | Pythagorean calculation with sub-optimal numerics. |

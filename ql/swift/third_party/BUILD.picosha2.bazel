@@ -1,6 +1,0 @@
-cc_library(
-    name = "picosha2",
-    hdrs = glob(["*.h"]),
-    includes = ["."],
-    visibility = ["//visibility:public"],
-)

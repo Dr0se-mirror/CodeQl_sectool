@@ -1,2 +1,0 @@
-semmle-extractor-options: -R . -p . --filter exclude:**/src_archive/**
-

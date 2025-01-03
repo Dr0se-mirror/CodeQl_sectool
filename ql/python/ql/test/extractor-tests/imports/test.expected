@@ -1,4 +1,0 @@
-| 2 | Import | Alias | ImportMember | y |
-| 6 | Import | Alias | ImportExpr | fcntl |
-| 11 | Import | Alias | ImportExpr | __builtin__ |
-| 13 | Import | Alias | ImportExpr | __builtin__ |

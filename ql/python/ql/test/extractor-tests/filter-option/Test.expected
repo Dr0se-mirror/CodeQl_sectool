@@ -1,5 +1,0 @@
-| Module bar |
-| Module foo.__init__ |
-| Module foo.bar |
-| Module foo.include_test |
-| Package foo |

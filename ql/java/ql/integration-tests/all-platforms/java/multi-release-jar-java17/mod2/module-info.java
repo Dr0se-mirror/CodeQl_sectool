@@ -1,5 +1,0 @@
-module moduletwo {
-
-  requires moduleone;
-
-}

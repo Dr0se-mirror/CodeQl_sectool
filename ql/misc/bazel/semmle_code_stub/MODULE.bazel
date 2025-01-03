@@ -1,4 +1,0 @@
-module(
-    name = "semmle_code",
-    version = "0.0",
-)
