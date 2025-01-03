@@ -1,0 +1,388 @@
+---
+queries:
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Diagnostics/ExtractionErrors.ql
+  relativeBqrsPath: codeql/java-queries/Diagnostics/ExtractionErrors.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Diagnostics/ExtractionWarnings.ql
+  relativeBqrsPath: codeql/java-queries/Diagnostics/ExtractionWarnings.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Diagnostics/SuccessfullyExtractedFiles.ql
+  relativeBqrsPath: codeql/java-queries/Diagnostics/SuccessfullyExtractedFiles.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Likely Bugs/Arithmetic/InformationLoss.ql
+  relativeBqrsPath: codeql/java-queries/Likely Bugs/Arithmetic/InformationLoss.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Metrics/Summaries/LinesOfCode.ql
+  relativeBqrsPath: codeql/java-queries/Metrics/Summaries/LinesOfCode.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-020/OverlyLargeRange.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-020/OverlyLargeRange.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-022/TaintedPath.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-022/TaintedPath.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-022/ZipSlip.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-022/ZipSlip.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-023/PartialPathTraversalFromRemote.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-023/PartialPathTraversalFromRemote.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-074/JndiInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-074/JndiInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-074/XsltInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-074/XsltInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-078/ExecTainted.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-078/ExecTainted.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-078/ExecUnescaped.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-078/ExecUnescaped.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-079/XSS.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-079/XSS.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-089/SqlTainted.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-089/SqlTainted.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-090/LdapInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-090/LdapInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-094/GroovyInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-094/GroovyInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-094/InsecureBeanValidation.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-094/InsecureBeanValidation.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-094/JexlInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-094/JexlInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-094/MvelInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-094/MvelInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-094/SpelInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-094/SpelInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-1104/MavenPomDependsOnBintray.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-1104/MavenPomDependsOnBintray.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-113/NettyResponseSplitting.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-113/NettyResponseSplitting.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-113/ResponseSplitting.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-113/ResponseSplitting.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-1204/StaticInitializationVector.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-1204/StaticInitializationVector.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-134/ExternallyControlledFormatString.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-134/ExternallyControlledFormatString.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-209/StackTraceExposure.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-209/StackTraceExposure.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-266/IntentUriPermissionManipulation.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-266/IntentUriPermissionManipulation.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-295/ImproperWebViewCertificateValidation.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-295/ImproperWebViewCertificateValidation.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-295/InsecureTrustManager.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-295/InsecureTrustManager.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-297/UnsafeHostnameVerification.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-297/UnsafeHostnameVerification.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-312/CleartextStorageCookie.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-312/CleartextStorageCookie.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-327/BrokenCryptoAlgorithm.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-327/BrokenCryptoAlgorithm.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-335/PredictableSeed.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-335/PredictableSeed.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-338/JHipsterGeneratedPRNG.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-338/JHipsterGeneratedPRNG.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-347/MissingJWTSignatureCheck.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-347/MissingJWTSignatureCheck.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-352/SpringCSRFProtection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-352/SpringCSRFProtection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-470/FragmentInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-470/FragmentInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-470/FragmentInjectionInPreferenceActivity.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-470/FragmentInjectionInPreferenceActivity.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-489/DebuggableAttributeEnabled.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-489/DebuggableAttributeEnabled.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-502/UnsafeDeserialization.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-502/UnsafeDeserialization.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-601/UrlRedirect.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-601/UrlRedirect.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-611/XXE.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-611/XXE.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-614/InsecureCookie.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-614/InsecureCookie.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-643/XPathInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-643/XPathInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-681/NumericCastTainted.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-681/NumericCastTainted.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-730/PolynomialReDoS.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-730/PolynomialReDoS.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-730/ReDoS.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-730/ReDoS.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-732/ReadingFromWorldWritableFile.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-732/ReadingFromWorldWritableFile.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-780/RsaWithoutOaep.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-780/RsaWithoutOaep.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-807/TaintedPermissionsCheck.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-807/TaintedPermissionsCheck.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-829/InsecureDependencyResolution.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-829/InsecureDependencyResolution.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-917/OgnlInjection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-917/OgnlInjection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-918/RequestForgery.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-918/RequestForgery.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-925/ImproperIntentVerification.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-925/ImproperIntentVerification.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-926/ImplicitlyExportedAndroidComponent.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-926/ImplicitlyExportedAndroidComponent.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-927/ImplicitPendingIntents.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-927/ImplicitPendingIntents.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Security/CWE/CWE-940/AndroidIntentRedirection.ql
+  relativeBqrsPath: codeql/java-queries/Security/CWE/CWE-940/AndroidIntentRedirection.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Telemetry/ExternalLibraryUsage.ql
+  relativeBqrsPath: codeql/java-queries/Telemetry/ExternalLibraryUsage.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Telemetry/SupportedExternalSinks.ql
+  relativeBqrsPath: codeql/java-queries/Telemetry/SupportedExternalSinks.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Telemetry/SupportedExternalSources.ql
+  relativeBqrsPath: codeql/java-queries/Telemetry/SupportedExternalSources.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Telemetry/SupportedExternalTaint.ql
+  relativeBqrsPath: codeql/java-queries/Telemetry/SupportedExternalTaint.bqrs
+  metadata: {}
+  queryHelp: null
+ -
+  pack: codeql/java-queries#0
+  relativeQueryPath: Telemetry/UnsupportedExternalAPIs.ql
+  relativeBqrsPath: codeql/java-queries/Telemetry/UnsupportedExternalAPIs.bqrs
+  metadata: {}
+  queryHelp: null
+extensionPacks: []
+packs:
+  codeql/java-queries#0:
+    name: codeql/java-queries
+    version: 0.3.3
+    localPath: file:///D:/CodeQl_sectool/ql/java/ql/src/
+    localPackDefinitionFile: file:///D:/CodeQl_sectool/ql/java/ql/src/qlpack.yml
+    runDataExtensions: []
