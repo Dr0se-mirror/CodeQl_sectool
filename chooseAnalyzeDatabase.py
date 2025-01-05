@@ -38,7 +38,7 @@ def analyze_database_route():
         return {'error': '数据库不存在'}, 400
 
     # 获取所有 QL 规则文件
-    ql_files = glob.glob(os.path.join(QL_RULES_FOLDER, 'java-code-scanning.qls'))
+    ql_files = glob.glob(os.path.join(QL_RULES_FOLDER, 'dr0se.qls'))
     if not ql_files:
         print("没有找到QL规则文件")
         return {'error': '没有找到 QL 规则文件'}, 400
