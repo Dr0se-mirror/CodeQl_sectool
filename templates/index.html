@@ -203,7 +203,7 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <h5>功能list</h5>
+            <h5>功能列表</h5>
             <a href="#" id="uploadTab">生成数据库</a>
             <a href="#" id="analyzeTab">分析数据库</a>
             <a href="#" id="resultsTab">查看报告</a>
@@ -237,6 +237,22 @@
                 <button id="previewButton" class="btn btn-info">预览</button>
                 <div id="previewContent" style="display: none;"></div>
                 <div id="resultStatus" class="status-message"></div>
+
+                <!-- 下载列表部分 -->
+                <div id="downloadList" style="display: none;">
+                    <h5>下载列表</h5>
+                    <table id="downloadTable" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>文件名</th>
+                                <th>下载</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 文件行将在这里动态添加 -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -354,18 +370,34 @@
                 .then(data => {
                     const resultSelect = document.getElementById('resultSelect');
                     resultSelect.innerHTML = '';
+                    const downloadTableBody = document.getElementById('downloadTable').getElementsByTagName('tbody')[0];
+                    downloadTableBody.innerHTML = '';
+
                     if (data.results && data.results.length > 0) {
                         data.results.forEach(result => {
+                            // 填充 resultSelect 下拉菜单
                             const option = document.createElement('option');
                             option.value = result;
                             option.textContent = result;
                             resultSelect.appendChild(option);
+
+                            // 填充 downloadTable
+                            const row = downloadTableBody.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+
+                            cell1.innerHTML = result;
+                            cell2.innerHTML = `<a href="/download_result/${result}" class="btn btn-primary btn-sm">下载</a>`;
                         });
+
+                        // 显示 downloadList
+                        document.getElementById('downloadList').style.display = 'block';
                     } else {
                         const option = document.createElement('option');
                         option.disabled = true;
                         option.textContent = '没有可用的结果文件';
                         resultSelect.appendChild(option);
+                        document.getElementById('downloadList').style.display = 'none';
                     }
                 })
                 .catch(error => {
@@ -409,24 +441,12 @@
                     const table = document.createElement('table');
                     table.className = 'table table-striped table-bordered';
                     table.style.width = '100%'; // 确保表格宽度铺满
-
-                    // 创建表头
-                    const thead = document.createElement('thead');
-                    const headerRow = document.createElement('tr');
-                    ['Vulnerability Name', 'Description','Details', 'File Path', 'Line Number','Start Column','End Line','End Column','ai_response'].forEach(headerText => {
-                        const th = document.createElement('th');
-                        th.innerText = headerText;
-                        headerRow.appendChild(th);
-                    });
-                    thead.appendChild(headerRow);
-                    table.appendChild(thead);
-
                     // 创建表体
                     const tbody = document.createElement('tbody');
 
                     data.forEach(row => {
                         const tr = document.createElement('tr');
-                        ['Vulnerability Name', 'Description','Details', 'File Path', 'Line Number','Start Column','End Line','End Column','ai_response'].forEach(key => {
+                        ['Vulnerability Name', 'Description','Details', 'File Path', 'Line Number','Start Column','End Line','End Column','ai_analyze'].forEach(key => {
                             const td = document.createElement('td');
                             td.innerText = row[key] || '';
                             tr.appendChild(td);

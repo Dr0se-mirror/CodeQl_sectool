@@ -117,7 +117,7 @@ def ai_analyze():
                         messages=[
                             {"role": "system", "content": "You are a helpful assistant"},
                             {"role": "user",
-                                "content": f"Analyze the following vulnerability:\n\nVulnerability Name: {vulnerability_name}\nDescription: {description}\nSeverity: {severity}\nDetails: {details}\nCode Content: {code_content},使用中文进行分析回复"},
+                                "content": f"Analyze the following vulnerability:\n\nVulnerability Name: {vulnerability_name}\nDescription: {description}\nSeverity: {severity}\nDetails: {details}\n漏洞点位于：{line_number}\nCode Content: {code_content},使用中文进行分析回复，返回的数据绝对不使用markdown格式"},
                             ],
                         stream=False
                         )
