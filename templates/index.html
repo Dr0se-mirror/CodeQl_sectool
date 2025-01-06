@@ -7,20 +7,17 @@
     <!-- 引入 Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
+        html, body {
+            height: 100%; /* 确保 html 和 body 高度为 100% */
+            width: 100%;
             margin: 0; /* 移除默认的外边距 */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 更改字体 */
-            background-color: #e9ecef; /* 更改背景颜色 */
-            display: flex;
-            height: 100vh; /* 高度铺满视口 */
-            width: 100vw; /* 宽度铺满视口 */
             overflow: hidden; /* 防止页面滚动 */
         }
 
         .container {
             display: flex;
-            width: 100vw; /* 宽度铺满视口 */
-            height: 100vh; /* 高度铺满视口 */
+            width: 100vw; /* 确保宽度铺满视口 */
+            height: 100vh; /* 确保高度铺满视口 */
             background-color: #ffffff;
             margin: 0; /* 移除默认的外边距 */
             padding: 0; /* 移除默认的内边距 */
@@ -72,14 +69,15 @@
             align-items: stretch;
             overflow-y: auto; /* 允许内容滚动 */
             height: 100%; /* 确保内容区域高度铺满 */
-            width: 100%; /* 添加这一行以确保内容区域宽度铺满 */
+            width: calc(100% - 250px); /* 确保内容区域宽度减去侧边栏宽度 */
+            margin-left: auto; /* 将内容区域靠右对齐 */
         }
 
         .header {
             background-color: #007bff;
             color: white;
             padding: 15px;
-            font-size: 1.5em;
+            font-size: 1.8em; /* 增加标题字体大小 */
             margin-bottom: 10px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -87,8 +85,9 @@
         }
 
         .form-control {
-            width: 100%;
-            padding: 10px;
+            width: 100%; /* 确保宽度铺满父容器 */
+            max-width: 300px; /* 设置最大宽度 */
+            padding: 12px; /* 增加内边距 */
             margin-bottom: 10px;
             border: 1px solid #ced4da;
             border-radius: 5px;
@@ -102,13 +101,14 @@
         }
 
         .btn {
-            padding: 10px 15px;
+            padding: 12px 15px; /* 增加按钮内边距 */
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s, transform 0.2s; /* 添加缩放效果 */
             width: 100%;
             margin-bottom: 10px;
+            font-size: 1em; /* 增加按钮字体大小 */
         }
 
         .btn:hover {
@@ -149,6 +149,7 @@
             display: none;
             width: 100%;
             text-align: center;
+            font-size: 1.1em; /* 增加状态消息字体大小 */
         }
 
         .status-message.success {
@@ -163,10 +164,36 @@
 
         .section-title {
             margin-bottom: 15px;
-            font-size: 1.5em;
+            font-size: 1.8em; /* 增加节标题字体大小 */
             border-bottom: 2px solid #007bff;
             padding-bottom: 5px;
             text-align: left;
+        }
+
+        table {
+            width: 100%; /* 表格宽度铺满父容器 */
+            border-collapse: collapse; /* 合并边框 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加表格阴影 */
+        }
+
+        th, td {
+            padding: 10px; /* 增加内边距 */
+            text-align: left; /* 左对齐 */
+            border: 1px solid #dee2e6; /* 添加边框 */
+            transition: background-color 0.3s; /* 添加背景颜色过渡 */
+        }
+
+        th {
+            background-color: #f8f9fa; /* 表头背景颜色 */
+            font-weight: bold; /* 加粗表头字体 */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* 偶数行背景色 */
+        }
+
+        tr:hover {
+            background-color: #e9ecef; /* 鼠标悬停时的背景色 */
         }
     </style>
 </head>
@@ -378,7 +405,7 @@
                     // 创建表格
                     const table = document.createElement('table');
                     table.className = 'table table-striped table-bordered';
-                    table.style.width = '100%';
+                    table.style.width = '100%'; // 确保表格宽度铺满
 
                     // 创建表头
                     const thead = document.createElement('thead');
