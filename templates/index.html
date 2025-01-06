@@ -413,7 +413,7 @@
                     // 创建表头
                     const thead = document.createElement('thead');
                     const headerRow = document.createElement('tr');
-                    ['Vulnerability Name', 'Description', 'Severity', 'Details', 'File Path', 'Line Number'].forEach(headerText => {
+                    ['Vulnerability Name', 'Description','Details', 'File Path', 'Line Number','Start Column','End Line','End Column','ai_response'].forEach(headerText => {
                         const th = document.createElement('th');
                         th.innerText = headerText;
                         headerRow.appendChild(th);
@@ -426,7 +426,7 @@
 
                     data.forEach(row => {
                         const tr = document.createElement('tr');
-                        ['Vulnerability Name', 'Description', 'Severity', 'Details', 'File Path', 'Line Number'].forEach(key => {
+                        ['Vulnerability Name', 'Description','Details', 'File Path', 'Line Number','Start Column','End Line','End Column','ai_response'].forEach(key => {
                             const td = document.createElement('td');
                             td.innerText = row[key] || '';
                             tr.appendChild(td);
