@@ -30,7 +30,7 @@ def analyze_database_route():
     os.makedirs(results_folder, exist_ok=True)
 
     # 根据数据库名称构建输出文件名
-    output_file_name = f"{database_name}_代码分析结果.sarif"
+    output_file_name = f"{database_name}_代码分析结果.csv"
     output_file_path = os.path.join(results_folder, output_file_name)
 
     database_path = os.path.join(DATABASE_FOLDER, database_name)
@@ -38,7 +38,7 @@ def analyze_database_route():
         return {'error': '数据库不存在'}, 400
 
     # 获取所有 QL 规则文件
-    ql_files = glob.glob(os.path.join(QL_RULES_FOLDER, 'java-security-extended.qls'))
+    ql_files = glob.glob(os.path.join(QL_RULES_FOLDER, 'java-code-scanning.qls'))
     if not ql_files:
         print("没有找到QL规则文件")
         return {'error': '没有找到 QL 规则文件'}, 400
@@ -48,7 +48,7 @@ def analyze_database_route():
 
     # 构建分析命令
     ql_files_str = ' '.join(f'"{ql_file}"' for ql_file in ql_files)
-    command = f'codeql database analyze "{database_path}" {ql_files_str} --format=sarifv2.1.0 --output="{output_file_path}"'
+    command = f'codeql database analyze "{database_path}" {ql_files_str} --format=csv --output="{output_file_path}" --sarif-add-baseline-file-info'
     print(command)
 
     # 使用 tqdm 显示进度条
