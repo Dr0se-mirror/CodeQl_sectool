@@ -95,6 +95,13 @@
         .btn-success:hover {
             background-color: #218838;
         }
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .btn-info:hover {
+            background-color: #138496;
+        }
         .status-message {
             margin-top: 20px;
             padding: 10px;
@@ -126,6 +133,7 @@
             <h5>功能菜单</h5>
             <a href="#" id="uploadTab">上传数据库</a>
             <a href="#" id="analyzeTab">分析数据库</a>
+            <a href="#" id="resultsTab">查看分析结果</a>
         </div>
         <div class="content">
             <div id="uploadSection">
@@ -149,8 +157,14 @@
                 <button id="analyzeButton" class="btn btn-success">分析</button>
                 <div id="analyzeStatus" class="status-message"></div>
             </div>
-            <h2>分析结果</h2>
-            <ul id="resultList"></ul>
+
+            <div id="resultsSection" style="display: none;">
+                <div class="header">选择并预览分析结果</div>
+                <select id="resultSelect" class="form-control"></select>
+                <button id="previewButton" class="btn btn-info">预览</button>
+                <pre id="previewContent" style="display: none;"></pre>
+                <div id="resultStatus" class="status-message"></div>
+            </div>
         </div>
     </div>
 
@@ -158,14 +172,24 @@
         document.getElementById('uploadTab').onclick = function() {
             document.getElementById('uploadSection').style.display = 'block';
             document.getElementById('analyzeSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'none';
             document.getElementById('status').style.display = 'none';  // 隐藏状态信息
         };
 
         document.getElementById('analyzeTab').onclick = function() {
             document.getElementById('uploadSection').style.display = 'none';
             document.getElementById('analyzeSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
             loadDatabases();  // 加载数据库列表
             document.getElementById('analyzeStatus').style.display = 'none';  // 隐藏状态信息
+        };
+
+        document.getElementById('resultsTab').onclick = function() {
+            document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('analyzeSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'block';
+            loadResults();  // 加载结果文件列表
+            document.getElementById('resultStatus').style.display = 'none';  // 隐藏状态信息
         };
 
         document.getElementById('uploadButton').onclick = function() {
@@ -252,48 +276,62 @@
                 });
         }
 
+        function loadResults() {
+            fetch('/choose_results')
+                .then(response => response.json())
+                .then(data => {
+                    const resultSelect = document.getElementById('resultSelect');
+                    resultSelect.innerHTML = '';
+                    if (data.results && data.results.length > 0) {
+                        data.results.forEach(result => {
+                            const option = document.createElement('option');
+                            option.value = result;
+                            option.textContent = result;
+                            resultSelect.appendChild(option);
+                        });
+                    } else {
+                        const option = document.createElement('option');
+                        option.disabled = true;
+                        option.textContent = '没有可用的结果文件';
+                        resultSelect.appendChild(option);
+                    }
+                })
+                .catch(error => {
+                    console.error('加载结果文件失败:', error);
+                    const statusDiv = document.getElementById('resultStatus');
+                    statusDiv.innerText = '加载结果文件失败';
+                    statusDiv.classList.add("error");
+                    statusDiv.style.display = "block";
+                });
+        }
+
+        document.getElementById('previewButton').onclick = function() {
+            const selectedResult = document.getElementById('resultSelect').value;
+            if (!selectedResult) {
+                alert('请选择一个结果文件');
+                return;
+            }
+
+            const previewContent = document.getElementById('previewContent');
+            previewContent.style.display = 'none';  // Hide previous content
+
+            fetch('/preview_result/' + selectedResult)
+                .then(response => response.text())
+                .then(data => {
+                    previewContent.innerText = data;
+                    previewContent.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('预览失败:', error);
+                    const statusDiv = document.getElementById('resultStatus');
+                    statusDiv.innerText = '预览失败: ' + error.message;
+                    statusDiv.classList.add("error");
+                    statusDiv.style.display = "block";
+                });
+        };
+
         // 默认显示上传部分
         document.getElementById('uploadTab').click();
-        async function analyzeDatabase() {
-    const database = document.getElementById('databaseSelect').value;
-    const response = await fetch('/analyze', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ database: database }),
-    });
-
-    const result = await response.json();
-    if (response.ok) {
-        const resultFile = result.result_file;
-        alert(result.message);
-        // 提供下载链接
-        const downloadLink = document.createElement('a');
-        downloadLink.href = `/download_result/${resultFile}`;
-        downloadLink.innerText = '下载分析结果';
-        document.body.appendChild(downloadLink);
-    } else {
-        alert(result.message);
-    }
-
-}
-        const resultList = document.getElementById('resultList');
-         // 获取分析结果列表
-        fetch('/results')
-            .then(response => response.json())
-            .then(data => {
-                resultList.innerHTML = '';
-                data.results.forEach(result => {
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.href = `/download_result/${result}`;
-                    a.textContent = result;
-                    a.download = result;
-                    li.appendChild(a);
-                    resultList.appendChild(li);
-                });
-            });
     </script>
 </body>
 </html>
