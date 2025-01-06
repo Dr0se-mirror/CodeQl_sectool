@@ -172,6 +172,8 @@
 
         table {
             width: 100%; /* 表格宽度铺满父容器 */
+            max-width: 100%; /* 确保表格不超出容器 */
+            overflow-x: auto; /* 允许横向滚动 */
             border-collapse: collapse; /* 合并边框 */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加表格阴影 */
         }
@@ -181,6 +183,7 @@
             text-align: left; /* 左对齐 */
             border: 1px solid #dee2e6; /* 添加边框 */
             transition: background-color 0.3s; /* 添加背景颜色过渡 */
+            font-size: 0.9em; /* 缩小字体大小 */
         }
 
         th {
@@ -200,10 +203,10 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <h5>功能菜单</h5>
-            <a href="#" id="uploadTab">上传数据库</a>
+            <h5>功能list</h5>
+            <a href="#" id="uploadTab">生成数据库</a>
             <a href="#" id="analyzeTab">分析数据库</a>
-            <a href="#" id="resultsTab">查看分析结果</a>
+            <a href="#" id="resultsTab">查看报告</a>
         </div>
         <div class="content">
             <div id="uploadSection">
@@ -410,7 +413,7 @@
                     // 创建表头
                     const thead = document.createElement('thead');
                     const headerRow = document.createElement('tr');
-                    ['Vulnerability Name', 'Description', 'Severity', 'Details', 'File Path', 'Line Number', 'Start Column', 'End Line', 'End Column'].forEach(headerText => {
+                    ['Vulnerability Name', 'Description', 'Severity', 'Details', 'File Path', 'Line Number'].forEach(headerText => {
                         const th = document.createElement('th');
                         th.innerText = headerText;
                         headerRow.appendChild(th);
@@ -423,7 +426,7 @@
 
                     data.forEach(row => {
                         const tr = document.createElement('tr');
-                        ['Vulnerability Name', 'Description', 'Severity', 'Details', 'File Path', 'Line Number', 'Start Column', 'End Line', 'End Column'].forEach(key => {
+                        ['Vulnerability Name', 'Description', 'Severity', 'Details', 'File Path', 'Line Number'].forEach(key => {
                             const td = document.createElement('td');
                             td.innerText = row[key] || '';
                             tr.appendChild(td);
