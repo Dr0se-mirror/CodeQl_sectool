@@ -204,9 +204,9 @@
     <div class="container">
         <div class="sidebar">
             <h5>功能列表</h5>
-            <a href="#" id="uploadTab">生成数据库</a>
-            <a href="#" id="analyzeTab">分析数据库</a>
-            <a href="#" id="resultsTab">查看报告</a>
+            <a href="#" id="uploadTab">上传漏洞源码</a>
+            <a href="#" id="analyzeTab">设置查询配置</a>
+            <a href="#" id="resultsTab">查看分析报告</a>
         </div>
         <div class="content">
             <div id="uploadSection">
@@ -225,8 +225,9 @@
             </div>
 
             <div id="analyzeSection" style="display: none;">
-                <div class="header">选择已有数据库</div>
+                <div class="header">分析数据库</div>
                 <select id="databaseSelect" class="form-control"></select>
+                <select id="querySuiteSelect" class="form-control"></select>
                 <button id="analyzeButton" class="btn btn-success">分析</button>
                 <div id="analyzeStatus" class="status-message"></div>
             </div>
@@ -270,6 +271,7 @@
             document.getElementById('analyzeSection').style.display = 'block';
             document.getElementById('resultsSection').style.display = 'none';
             loadDatabases();
+            loadQuerySuites();
             document.getElementById('analyzeStatus').style.display = 'none';
         };
 
@@ -316,6 +318,7 @@
 
         document.getElementById('analyzeButton').onclick = function() {
             const databaseName = document.getElementById('databaseSelect').value;
+            const querySuite = document.getElementById('querySuiteSelect').value;
 
             const analyzeStatusDiv = document.getElementById('analyzeStatus');
             analyzeStatusDiv.innerText = "分析中...";
@@ -327,7 +330,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ database: databaseName })
+                body: JSON.stringify({ database: databaseName, query_suite: querySuite })
             })
             .then(response => response.json())
             .then(data => {
@@ -364,6 +367,24 @@
                 });
         }
 
+        function loadQuerySuites() {
+            fetch('/choose_query_suites')
+                .then(response => response.json())
+                .then(suites => {
+                    const suiteSelect = document.getElementById('querySuiteSelect');
+                    suiteSelect.innerHTML = '';
+                    suites.forEach(suite => {
+                        const option = document.createElement('option');
+                        option.value = suite;
+                        option.textContent = suite;
+                        suiteSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('加载查询套件失败:', error);
+                });
+        }
+
         function loadResults() {
             fetch('/choose_results')
                 .then(response => response.json())
@@ -375,13 +396,11 @@
 
                     if (data.results && data.results.length > 0) {
                         data.results.forEach(result => {
-                            // 填充 resultSelect 下拉菜单
                             const option = document.createElement('option');
                             option.value = result;
                             option.textContent = result;
                             resultSelect.appendChild(option);
 
-                            // 填充 downloadTable
                             const row = downloadTableBody.insertRow();
                             const cell1 = row.insertCell(0);
                             const cell2 = row.insertCell(1);
@@ -390,7 +409,6 @@
                             cell2.innerHTML = `<a href="/download_result/${result}" class="btn btn-primary btn-sm">下载</a>`;
                         });
 
-                        // 显示 downloadList
                         document.getElementById('downloadList').style.display = 'block';
                     } else {
                         const option = document.createElement('option');
