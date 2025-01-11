@@ -111,7 +111,7 @@ def ai_analyze():
                     # 调用DeepSeek v3 API进行分析
                     # 调用 DeepSeek API 进行分析
                 try:
-                    client=openai.OpenAI(api_key="sk-da0d74cd445d4e70b03dd7d02e324621", base_url="https://api.deepseek.com")
+                    client=openai.OpenAI(api_key="your key", base_url="https://api.deepseek.com")
                     response = client.chat.completions.create(
                         model="deepseek-chat",
                         messages=[
