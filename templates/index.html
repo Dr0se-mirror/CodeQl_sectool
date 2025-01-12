@@ -7,82 +7,81 @@
     <!-- 引入 Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        html, body {
-            height: 100%; /* 确保 html 和 body 高度为 100% */
-            width: 100%;
-            margin: 0; /* 移除默认的外边距 */
-            overflow: hidden; /* 防止页面滚动 */
+         /* 全局样式 */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Nunito', sans-serif;
+            background-color: #f7f7f7;
+        }
+         .navbar-nav li {
+            display: inline;
         }
 
         .container {
-            display: flex;
-            width: 100vw; /* 确保宽度铺满视口 */
-            height: 100vh; /* 确保高度铺满视口 */
-            background-color: #ffffff;
-            margin: 0; /* 移除默认的外边距 */
-            padding: 0; /* 移除默认的内边距 */
-            overflow: hidden; /* 防止内容溢出 */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
-        .sidebar {
-            width: 250px; /* 侧边栏宽度 */
-            height: 100%; /* 高度铺满父容器 */
+        /* 顶部导航栏样式 */
+        .navbar {
             background-color: #343a40;
             color: white;
-            padding: 20px;
-            border-right: 2px solid #495057;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            overflow-y: auto; /* 允许侧边栏内容滚动 */
-            transition: background 0.3s; /* 添加过渡效果 */
+            padding: 1rem;
         }
 
-        .sidebar h5 {
-            margin-bottom: 20px;
-            font-size: 1.5em;
-            text-align: center;
+        .navbar-brand {
+            font-size: 1rem; /* Adjusted font size */
+            padding: 0.5rem; /* Reduced padding */
         }
 
-        .sidebar a {
+        .navbar-nav .nav-link {
+                color: white;
+                padding: 1rem 1rem; /* Reduced padding */
+                transition: background 0.3s, transform 0.2s;
+                background-color: #495057; /* 深灰色背景 */
+                border-radius: 5px; /* 圆角 */
+                font-weight: 500;
+            }
+
+            .navbar-nav .nav-link:hover {
+                background-color: #007bff;
+                color: white;
+                transform: scale(1.05);
+            }
+
+            .navbar-nav .nav-link.active {
+                background-color: #0056b3; /* 深蓝色背景 */
+                color: white;
+            }
+        .navbar {
+            background-color: #343a40;
             color: white;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background 0.3s, transform 0.2s; /* 添加缩放效果 */
-            margin-bottom: 10px;
+            padding: 0.2rem; /* Reduced padding */
+            border: none;
         }
-
-        .sidebar a:hover {
-            background-color: #495057;
-            transform: scale(1.05); /* 鼠标悬停时放大 */
-        }
-
+        /* 内容区域样式 */
         .content {
-            flex-grow: 1; /* 内容区域占据剩余空间 */
+            flex-grow: 1;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: stretch;
-            overflow-y: auto; /* 允许内容滚动 */
-            height: 100%; /* 确保内容区域高度铺满 */
-            width: calc(100% - 250px); /* 确保内容区域宽度减去侧边栏宽度 */
-            margin-left: auto; /* 将内容区域靠右对齐 */
+            overflow-y: auto;
+            height: calc(100vh - 60px); /* 减去导航栏高度 */
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header {
             background-color: #007bff;
             color: white;
             padding: 15px;
-            font-size: 1.8em; /* 增加标题字体大小 */
+            font-size: 1.8em;
             margin-bottom: 10px;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center; /* 中心对齐 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
         }
         #fileTree a.active {
             font-weight: bold;
@@ -219,19 +218,40 @@
         tr:hover {
             background-color: #e9ecef; /* 鼠标悬停时的背景色 */
         }
+        .navbar-nav {
+            display: flex;
+            justify-content: flex-end; /* 水平靠右排列 */
+        }
+
+        .navbar-nav .nav-item {
+            margin-left: 15px; /* 调整间距 */
+            margin-right: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
-            <h5>功能列表</h5>
-            <a href="#" id="uploadTab">上传漏洞源码</a>
-            <a href="#" id="analyzeTab">设置查询配置</a>
-            <a href="#" id="resultsTab">查看分析报告</a>
-            <a href="#" id="customQLTab">自定义QL规则</a>
-        </div>
+        <!-- 顶部导航栏 -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="#" id="uploadTab">上传漏洞源码</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="#" id="analyzeTab">设置查询配置</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="#" id="resultsTab">查看分析报告</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="#" id="customQLTab">自定义QL规则</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <div class="content">
-            <div id="uploadSection">
+           <div id="uploadSection" style="display: block;">
                 <div class="header">上传 ZIP 文件</div>
                 <input type="file" id="fileInput" class="form-control">
                 <select id="languageSelect" class="form-control">
@@ -241,7 +261,7 @@
                     <option value="csharp">C#</option>
                     <option value="cpp">C++</option>
                     <option value="go">Go</option>
-                </select>
+               </select>
                 <button id="uploadButton" class="btn btn-primary">上传</button>
                 <div id="status" class="status-message"></div>
             </div>
@@ -290,18 +310,24 @@
         </div>
         </div>
     </div>
-
+  <!-- 引入 Bootstrap JS 和依赖 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function hideAllSections() {
-            const sections = ['uploadSection', 'analyzeSection', 'resultsSection', 'customQLSection'];
-            sections.forEach(sectionId => {
-                document.getElementById(sectionId).style.display = 'none';
-            });
+                const sections = ['uploadSection', 'analyzeSection', 'resultsSection', 'customQLSection'];
+                sections.forEach(sectionId => {
+                    document.getElementById(sectionId).style.display = 'none';
+                });
+                // �移除所有nav-link的active类
+                const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+                navLinks.forEach(link => link.classList.remove('active'));
         }
-
         document.getElementById('uploadTab').onclick = function() {
             hideAllSections();
             document.getElementById('uploadSection').style.display = 'block';
+            this.classList.add('active'); // 给当前点击的link添加active类
         };
 
         document.getElementById('analyzeTab').onclick = function() {
@@ -309,18 +335,21 @@
             document.getElementById('analyzeSection').style.display = 'block';
             loadDatabases();
             loadQuerySuites();
+            this.classList.add('active'); // 给当前点击的link添加active类
         };
 
         document.getElementById('resultsTab').onclick = function() {
             hideAllSections();
             document.getElementById('resultsSection').style.display = 'block';
             loadResults();
+            this.classList.add('active'); // 给当前点击的link添加active类
         };
 
         document.getElementById('customQLTab').onclick = function() {
             hideAllSections();
             document.getElementById('customQLSection').style.display = 'block';
             loadQLFiles();
+            this.classList.add('active'); // 给当前点击的link添加active类
         };
 
                 document.getElementById('uploadButton').onclick = function() {
