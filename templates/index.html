@@ -6,6 +6,7 @@
     <title>CodeQL 上传与分析</title>
     <!-- 引入 Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         html, body {
             height: 100%; /* 确保 html 和 body 高度为 100% */
@@ -83,7 +84,10 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center; /* 中心对齐 */
         }
-
+        #fileTree a.active {
+            font-weight: bold;
+            color: #007bff;
+        }
         .form-control {
             width: 100%; /* 确保宽度铺满父容器 */
             max-width: 300px; /* 设置最大宽度 */
@@ -152,6 +156,23 @@
             font-size: 1.1em; /* 增加状态消息字体大小 */
         }
 
+               #fileTree a.file {
+            color: #007bff;
+        }
+
+        #fileTree span.folder {
+            color: #28a745;
+        }
+
+        #fileTree a.new-file {
+            color: #17a2b8;
+            margin-left: 10px;
+        }
+
+        #fileTree ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
         .status-message.success {
             background-color: #d4edda;
             color: #155724;
@@ -207,6 +228,7 @@
             <a href="#" id="uploadTab">上传漏洞源码</a>
             <a href="#" id="analyzeTab">设置查询配置</a>
             <a href="#" id="resultsTab">查看分析报告</a>
+            <a href="#" id="customQLTab">自定义QL规则</a>
         </div>
         <div class="content">
             <div id="uploadSection">
@@ -255,35 +277,53 @@
                     </table>
                 </div>
             </div>
+
+            <div id="customQLSection">
+                <div class="header">自定义QL规则</div>
+                <div id="fileTree"></div>
+                <button id="loadQLButton" class="btn btn-primary">加载</button>
+                <textarea id="qlEditor" class="form-control" style="height: 400px; margin-top: 10px;"></textarea>
+                <input type="hidden" id="currentFilePath" value="">
+                <button id="saveQLButton" class="btn btn-success" style="margin-top: 10px;">保存</button>
+                <div id="qlStatus" class="status-message"></div>
+            </div>
+        </div>
         </div>
     </div>
 
     <script>
+        function hideAllSections() {
+            const sections = ['uploadSection', 'analyzeSection', 'resultsSection', 'customQLSection'];
+            sections.forEach(sectionId => {
+                document.getElementById(sectionId).style.display = 'none';
+            });
+        }
+
         document.getElementById('uploadTab').onclick = function() {
+            hideAllSections();
             document.getElementById('uploadSection').style.display = 'block';
-            document.getElementById('analyzeSection').style.display = 'none';
-            document.getElementById('resultsSection').style.display = 'none';
-            document.getElementById('status').style.display = 'none';
         };
 
         document.getElementById('analyzeTab').onclick = function() {
-            document.getElementById('uploadSection').style.display = 'none';
+            hideAllSections();
             document.getElementById('analyzeSection').style.display = 'block';
-            document.getElementById('resultsSection').style.display = 'none';
             loadDatabases();
             loadQuerySuites();
-            document.getElementById('analyzeStatus').style.display = 'none';
         };
 
         document.getElementById('resultsTab').onclick = function() {
-            document.getElementById('uploadSection').style.display = 'none';
-            document.getElementById('analyzeSection').style.display = 'none';
+            hideAllSections();
             document.getElementById('resultsSection').style.display = 'block';
             loadResults();
-            document.getElementById('resultStatus').style.display = 'none';
         };
 
-        document.getElementById('uploadButton').onclick = function() {
+        document.getElementById('customQLTab').onclick = function() {
+            hideAllSections();
+            document.getElementById('customQLSection').style.display = 'block';
+            loadQLFiles();
+        };
+
+                document.getElementById('uploadButton').onclick = function() {
             const fileInput = document.getElementById('fileInput');
             const languageSelect = document.getElementById('languageSelect');
             const formData = new FormData();
@@ -349,6 +389,139 @@
             });
         };
 
+
+        function loadQLFiles() {
+            const fileTreeContainer = document.getElementById('fileTree');
+            if (fileTreeContainer.innerHTML === '') {
+                fetch('/get_ql_files')
+                    .then(response => response.json())
+                    .then(data => {
+                        const ul = document.createElement('ul');
+                        buildFileTree(data, ul);
+                        fileTreeContainer.appendChild(ul);
+                    })
+                    .catch(error => console.error('Error loading file tree:', error));
+            }
+        }
+
+        function buildFileTree(structure, parentElement) {
+            console.log('Building tree with', structure.length, 'items');
+            structure.forEach(item => {
+                const li = document.createElement('li');
+                console.log('Processing item:', item.name, item.type);
+                if (item.type === 'folder') {
+                    const span = document.createElement('span');
+                    span.className = 'folder';
+                    span.innerHTML = '<i class="fas fa-folder"></i> ' + item.name;
+                    span.addEventListener('click', function() {
+                        const ul = li.querySelector('ul');  // 通过li查找内部的ul
+                        ul.style.display = ul.style.display === 'none' ? 'block' : 'none';
+                    });
+                    li.appendChild(span);
+
+                    const aNewFile = document.createElement('a');
+                    aNewFile.className = 'new-file';
+                    aNewFile.innerHTML = '<i class="fas fa-plus"></i>';
+                    aNewFile.href = '#';
+                    aNewFile.dataset.path = item.path;
+                    aNewFile.addEventListener('click', function() {
+                        createNewFile(item.path);
+                    });
+                    li.appendChild(aNewFile);
+
+                    const ul = document.createElement('ul');
+                    ul.style.display = 'none';
+                    li.appendChild(ul);
+                    buildFileTree(item.children, ul);
+                } else if (item.type === 'file') {
+                    const a = document.createElement('a');
+                    a.className = 'file';
+                    a.innerHTML = '<i class="fas fa-file"></i> ' + item.name;
+                    a.href = '/download_file/' + encodeURIComponent(item.path);
+                    a.target = '_blank';
+                    a.dataset.path = item.path;
+                    a.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        loadFileContent(a.dataset.path);
+                        highlightSelectedFile(a);
+                    });
+                    li.appendChild(a);
+                }
+                parentElement.appendChild(li);
+            });
+        }
+
+        function createNewFile(folderPath) {
+            const newFileName = prompt('请输入新文件名：');
+            if (newFileName) {
+                fetch('/create_new_file', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ folder: folderPath, name: newFileName })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        alert(data.message);
+                        loadQLFiles(); // 重新加载文件树
+                    }
+                })
+                .catch(error => console.error('创建文件失败:', error));
+            }
+        }
+
+        function highlightSelectedFile(currentFile) {
+            const allFiles = document.querySelectorAll('#fileTree a');
+            allFiles.forEach(file => file.classList.remove('active'));
+            currentFile.classList.add('active');
+        }
+        function loadFileContent(filePath) {
+            console.log('Loading content for', filePath);
+            fetch('/get_ql_content?file=' + encodeURIComponent(filePath))
+                .then(response => response.text())
+                .then(content => {
+                    document.getElementById('qlEditor').value = content;
+                    document.getElementById('currentFilePath').value = filePath;
+                })
+                .catch(error => console.error('Error loading file content:', error));
+        }
+        document.getElementById('loadQLButton').onclick = function() {
+            const selectedFile = document.getElementById('qlFileSelect').value;
+            fetch('/get_ql_content?file=' + encodeURIComponent(selectedFile))
+                .then(response => response.text())
+                .then(content => {
+                    document.getElementById('qlEditor').value = content;
+                })
+                .catch(error => console.error('Error loading QL content:', error));
+        };
+
+        document.getElementById('saveQLButton').onclick = function() {
+            const selectedFile = document.getElementById('currentFilePath').value;
+            const content = document.getElementById('qlEditor').value;
+            fetch('/save_ql_file', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ file: selectedFile, content: content })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('qlStatus').innerText = data.error;
+                    document.getElementById('qlStatus').classList.add("error");
+                } else {
+                    document.getElementById('qlStatus').innerText = data.message;
+                    document.getElementById('qlStatus').classList.add("success");
+                }
+                document.getElementById('qlStatus').style.display = 'block';
+            })
+            .catch(error => console.error('Error saving QL file:', error));
+        };
         function loadDatabases() {
             fetch('/choose_databases')
                 .then(response => response.json())

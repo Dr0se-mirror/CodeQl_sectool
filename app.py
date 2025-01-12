@@ -1,4 +1,6 @@
 from flask import Flask, request, send_from_directory, jsonify
+
+from custom_ql import custom_ql_bp
 from uploadCreateDatabase import upload_file, list_databases, analyze_database
 from chooseAnalyzeDatabase import choose_analyze_bp  # 导入新的蓝图
 from checkresults import check_results_bp  # 导入新的蓝图
@@ -7,6 +9,7 @@ import os
 app = Flask(__name__)
 app.register_blueprint(choose_analyze_bp)  # 注册蓝图
 app.register_blueprint(check_results_bp)  # 注册蓝图
+app.register_blueprint(custom_ql_bp)
 @app.route('/')
 def index():
     return send_from_directory('templates', 'index.html')  # 返回前端页面
