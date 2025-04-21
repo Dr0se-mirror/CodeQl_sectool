@@ -1,0 +1,190 @@
+[T 18:25:14 40736] CodeQL CLI version 2.13.0
+[T 18:25:14 40736] Initializing tracer.
+[T 18:25:14 40736] Initialising tags...
+[T 18:25:14 40736] ID set to 0000000000009F20_0000000000000001 (parent root)
+[T 18:25:14 40736] Initializing tracer.
+[T 18:25:14 40736] Initialising tags...
+[T 18:25:14 40736] ID set to 0000000000009F20_0000000000000002 (parent root)
+[T 18:25:14 40736] Warning: SEMMLE_EXEC and SEMMLE_EXECP not set. Falling back to path lookup on argv[0].
+[T 18:25:14 40736] ==== Candidate to intercept: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/runner-osx (canonical: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/runner-osx) ====
+[T 18:25:14 40736] Lua: === Intercepted call to /users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/runner-osx ===
+[T 18:25:14 40736] Executing the following tracer actions:
+[T 18:25:14 40736] Tracer actions:
+[T 18:25:14 40736] pre_invocations(0)
+[T 18:25:14 40736] post_invocations(0)
+[T 18:25:14 40736] trace_languages(1): [java]
+[T 18:25:14 40737] Attempting to switch stdout/stderr to 3...
+/Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/bin/bash.semmle.00009F20.360E5160.slice.x86_64: replacing existing signature
+[T 18:25:15 40736] Initializing tracer.
+[T 18:25:15 40736] Initialising tags...
+[T 18:25:15 40736] ID set to 0000000000009F20_0000000000000003 (parent 0000000000009F20_0000000000000002)
+[T 18:25:15 40736] ==== Candidate to intercept: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/autobuild.sh (canonical: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/autobuild.sh) ====
+[T 18:25:15 40736] Lua: === Intercepted call to /users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/autobuild.sh ===
+[T 18:25:15 40736] Executing the following tracer actions:
+[T 18:25:15 40736] Tracer actions:
+[T 18:25:15 40736] pre_invocations(0)
+[T 18:25:15 40736] post_invocations(0)
+[T 18:25:15 40736] trace_languages(1): [java]
+[T 18:25:15 40754] Attempting to switch stdout/stderr to 3...
+/Library/Developer/CommandLineTools/usr/bin/install_name_tool: warning: changes being made to the file will invalidate the code signature in: /Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/bin/java.semmle.00009F31.23AF0A50.slice.arm64
+/Library/Developer/CommandLineTools/usr/bin/install_name_tool: warning: changes being made to the file will invalidate the code signature in: /Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/bin/java.semmle.00009F31.23AF0A50.slice.arm64
+/Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/bin/java.semmle.00009F31.23AF0A50.slice.arm64: replacing existing signature
+[T 18:25:16 40753] Initializing tracer.
+[T 18:25:16 40753] Initialising tags...
+[T 18:25:16 40753] ID set to 0000000000009F31_0000000000000001 (parent 0000000000009F20_0000000000000003)
+[T 18:25:16 40753] ==== Candidate to intercept: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/bin/java (canonical: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/bin/java) ====
+[T 18:25:16 40753] Lua: === Intercepted call to /users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/bin/java ===
+[T 18:25:16 40753] Executing the following tracer actions:
+[T 18:25:16 40753] Tracer actions:
+[T 18:25:16 40753] pre_invocations(0)
+[T 18:25:16 40753] post_invocations(0)
+[T 18:25:16 40753] trace_languages(1): [java]
+[T 18:25:16 40753] Passing through -javaagent:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar=ignore-project,java,kotlin to underlying JVM.
+[T 18:25:16 40753] Passing through -Xbootclasspath/a:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar to underlying JVM.
+[T 18:25:16 40753] Intercepted JVM creation with extra hidden args: ['-javaagent:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar=ignore-project,java,kotlin' '-Xbootclasspath/a:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar' ] (result: 1, 0).
+[T 18:25:16 40773] Attempting to switch stdout/stderr to 21...
+/Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/lib/jspawnhelper.semmle.00009F31.128A6A08.slice.arm64: replacing existing signature
+[T 18:25:16 40776] Initializing tracer.
+[T 18:25:16 40776] Initialising tags...
+[T 18:25:16 40776] ID set to 0000000000009F48_0000000000000001 (parent 0000000000009F31_0000000000000001)
+[T 18:25:16 40776] ==== Candidate to intercept: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/lib/jspawnhelper (canonical: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/lib/jspawnhelper) ====
+[T 18:25:16 40776] Lua: === Intercepted call to /users/dr0se/codeql-tools/codeql-2.13.0/codeql/tools/osx64/java-aarch64/lib/jspawnhelper ===
+[T 18:25:16 40776] Executing the following tracer actions:
+[T 18:25:16 40776] Tracer actions:
+[T 18:25:16 40776] pre_invocations(0)
+[T 18:25:16 40776] post_invocations(0)
+[T 18:25:16 40776] trace_languages(1): [java]
+[T 18:25:16 40776] Initializing tracer.
+[T 18:25:16 40776] Initialising tags...
+[T 18:25:16 40776] ID set to 0000000000009F48_0000000000000002 (parent 0000000000009F48_0000000000000001)
+[T 18:25:16 40776] ==== Candidate to intercept: /opt/homebrew/bin/mvn (canonical: /opt/homebrew/Cellar/maven/3.9.9/bin/mvn) ====
+[T 18:25:16 40776] Lua: === Intercepted call to /opt/homebrew/cellar/maven/3.9.9/bin/mvn ===
+[T 18:25:16 40776] Executing the following tracer actions:
+[T 18:25:16 40776] Tracer actions:
+[T 18:25:16 40776] pre_invocations(0)
+[T 18:25:16 40776] post_invocations(0)
+[T 18:25:16 40776] trace_languages(1): [java]
+[T 18:25:16 40781] Attempting to switch stdout/stderr to 3...
+/Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/bin/sh.semmle.00009F48.2C343538.slice.x86_64: replacing existing signature
+[T 18:25:17 40776] Initializing tracer.
+[T 18:25:17 40776] Initialising tags...
+[T 18:25:17 40776] ID set to 0000000000009F48_0000000000000003 (parent 0000000000009F48_0000000000000002)
+[T 18:25:17 40776] ==== Candidate to intercept: /opt/homebrew/Cellar/maven/3.9.9/libexec/bin/mvn (canonical: /opt/homebrew/Cellar/maven/3.9.9/libexec/bin/mvn) ====
+[T 18:25:17 40776] Lua: === Intercepted call to /opt/homebrew/cellar/maven/3.9.9/libexec/bin/mvn ===
+[T 18:25:17 40776] Executing the following tracer actions:
+[T 18:25:17 40776] Tracer actions:
+[T 18:25:17 40776] pre_invocations(0)
+[T 18:25:17 40776] post_invocations(0)
+[T 18:25:17 40776] trace_languages(1): [java]
+[T 18:25:17 40776] Initializing tracer.
+[T 18:25:17 40776] Initialising tags...
+[T 18:25:17 40776] ID set to 0000000000009F48_0000000000000004 (parent 0000000000009F48_0000000000000003)
+[T 18:25:17 40776] ==== Candidate to intercept: /bin/bash (canonical: /bin/bash) ====
+[T 18:25:17 40776] Lua: === Intercepted call to /bin/bash ===
+[T 18:25:17 40776] Executing the following tracer actions:
+[T 18:25:17 40776] Tracer actions:
+[T 18:25:17 40776] pre_invocations(0)
+[T 18:25:17 40776] post_invocations(0)
+[T 18:25:17 40776] trace_languages(1): [java]
+[T 18:25:17 40799] Attempting to switch stdout/stderr to 3...
+/Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/usr/bin/uname.semmle.00009F5E.10634C18.slice.x86_64: replacing existing signature
+[T 18:25:17 40798] Initializing tracer.
+[T 18:25:17 40798] Initialising tags...
+[T 18:25:17 40798] ID set to 0000000000009F5E_0000000000000001 (parent 0000000000009F48_0000000000000004)
+[T 18:25:17 40798] ==== Candidate to intercept: /usr/bin/uname (canonical: /usr/bin/uname) ====
+[T 18:25:17 40798] Lua: === Intercepted call to /usr/bin/uname ===
+[T 18:25:17 40798] Executing the following tracer actions:
+[T 18:25:17 40798] Tracer actions:
+[T 18:25:17 40798] pre_invocations(0)
+[T 18:25:17 40798] post_invocations(0)
+[T 18:25:17 40798] trace_languages(1): [java]
+[T 18:25:17 40806] Attempting to switch stdout/stderr to 3...
+/Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/usr/bin/dirname.semmle.00009F65.30B9F7F0.slice.x86_64: replacing existing signature
+[T 18:25:18 40805] Initializing tracer.
+[T 18:25:18 40805] Initialising tags...
+[T 18:25:18 40805] ID set to 0000000000009F65_0000000000000001 (parent 0000000000009F48_0000000000000004)
+[T 18:25:18 40805] ==== Candidate to intercept: /usr/bin/dirname (canonical: /usr/bin/dirname) ====
+[T 18:25:18 40805] Lua: === Intercepted call to /usr/bin/dirname ===
+[T 18:25:18 40805] Executing the following tracer actions:
+[T 18:25:18 40805] Tracer actions:
+[T 18:25:18 40805] pre_invocations(0)
+[T 18:25:18 40805] post_invocations(0)
+[T 18:25:18 40805] trace_languages(1): [java]
+[T 18:25:18 40832] Initializing tracer.
+[T 18:25:18 40832] Initialising tags...
+[T 18:25:18 40832] ID set to 0000000000009F80_0000000000000001 (parent 0000000000009F48_0000000000000004)
+[T 18:25:18 40832] ==== Candidate to intercept: /usr/bin/dirname (canonical: /usr/bin/dirname) ====
+[T 18:25:18 40832] Lua: === Intercepted call to /usr/bin/dirname ===
+[T 18:25:18 40832] Executing the following tracer actions:
+[T 18:25:18 40832] Tracer actions:
+[T 18:25:18 40832] pre_invocations(0)
+[T 18:25:18 40832] post_invocations(0)
+[T 18:25:18 40832] trace_languages(1): [java]
+[T 18:25:18 40843] Attempting to switch stdout/stderr to 3...
+/Library/Developer/CommandLineTools/usr/bin/install_name_tool: warning: changes being made to the file will invalidate the code signature in: /Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home/bin/java.semmle.00009F48.1A43C910.slice.arm64
+/Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home/bin/java.semmle.00009F48.1A43C910.slice.arm64: replacing existing signature
+[T 18:25:18 40776] Initializing tracer.
+[T 18:25:18 40776] Initialising tags...
+[T 18:25:18 40776] ID set to 0000000000009F48_0000000000000005 (parent 0000000000009F48_0000000000000004)
+[T 18:25:18 40776] ==== Candidate to intercept: /Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home/bin/java (canonical: /Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home/bin/java) ====
+[T 18:25:18 40776] Lua: === Intercepted call to /library/java/javavirtualmachines/amazon-corretto-8.jdk/contents/home/bin/java ===
+[T 18:25:18 40776] Executing the following tracer actions:
+[T 18:25:18 40776] Tracer actions:
+[T 18:25:18 40776] pre_invocations(0)
+[T 18:25:18 40776] post_invocations(0)
+[T 18:25:18 40776] trace_languages(1): [java]
+[T 18:25:18 40776] Passing through -javaagent:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar=ignore-project,java,kotlin to underlying JVM.
+[T 18:25:18 40776] Passing through -Xbootclasspath/a:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar to underlying JVM.
+[T 18:25:18 40776] Intercepted JVM creation with extra hidden args: ['-javaagent:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar=ignore-project,java,kotlin' '-Xbootclasspath/a:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar' ] (result: 1, 0).
+[T 18:25:20 40876] Attempting to switch stdout/stderr to 102...
+/Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home/jre/lib/jspawnhelper.semmle.00009F48.2ECBE778.slice.arm64: replacing existing signature
+[T 18:25:21 40879] Initializing tracer.
+[T 18:25:21 40879] Initialising tags...
+[T 18:25:21 40879] ID set to 0000000000009FAF_0000000000000001 (parent 0000000000009F48_0000000000000005)
+[T 18:25:21 40879] ==== Candidate to intercept: /Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home/jre/lib/jspawnhelper (canonical: /Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home/jre/lib/jspawnhelper) ====
+[T 18:25:21 40879] Lua: === Intercepted call to /library/java/javavirtualmachines/amazon-corretto-8.jdk/contents/home/jre/lib/jspawnhelper ===
+[T 18:25:21 40879] Executing the following tracer actions:
+[T 18:25:21 40879] Tracer actions:
+[T 18:25:21 40879] pre_invocations(0)
+[T 18:25:21 40879] post_invocations(0)
+[T 18:25:21 40879] trace_languages(1): [java]
+[T 18:25:21 40880] Attempting to switch stdout/stderr to 4...
+/Library/Developer/CommandLineTools/usr/bin/install_name_tool: warning: changes being made to the file will invalidate the code signature in: /Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/macos/jdk-extractor-java/bin/java.semmle.00009FAF.0AF5E498.slice.x86_64
+/Library/Developer/CommandLineTools/usr/bin/install_name_tool: warning: changes being made to the file will invalidate the code signature in: /Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/macos/jdk-extractor-java/bin/java.semmle.00009FAF.0AF5E498.slice.x86_64
+/Users/dr0se/Desktop/CatPaw_pro/codeqltool/CodeQl_sectool/databases/shirodatabase/working/copy-root/000001F5/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/macos/jdk-extractor-java/bin/java.semmle.00009FAF.0AF5E498.slice.x86_64: replacing existing signature
+[T 18:25:21 40879] Initializing tracer.
+[T 18:25:21 40879] Initialising tags...
+[T 18:25:21 40879] ID set to 0000000000009FAF_0000000000000002 (parent 0000000000009FAF_0000000000000001)
+[T 18:25:21 40879] ==== Candidate to intercept: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/macos/jdk-extractor-java/bin/java (canonical: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/macos/jdk-extractor-java/bin/java) ====
+[T 18:25:21 40879] Lua: === Intercepted call to /users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/macos/jdk-extractor-java/bin/java ===
+[T 18:25:21 40879] Executing the following tracer actions:
+[T 18:25:21 40879] Tracer actions:
+[T 18:25:21 40879] pre_invocations(0)
+[T 18:25:21 40879] post_invocations(0)
+[T 18:25:21 40879] trace_languages(1): [java]
+[T 18:25:21 40879] Passing through -javaagent:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar=ignore-project,java,kotlin to underlying JVM.
+[T 18:25:21 40879] Passing through -Xbootclasspath/a:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar to underlying JVM.
+[T 18:25:22 40879] Intercepted JVM creation with extra hidden args: ['-javaagent:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar=ignore-project,java,kotlin' '-Xbootclasspath/a:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar' ] (result: 1, 0).
+[T 18:25:29 41000] Initializing tracer.
+[T 18:25:29 41000] Initialising tags...
+[T 18:25:29 41000] ID set to 000000000000A028_0000000000000001 (parent 0000000000009F48_0000000000000005)
+[T 18:25:29 41000] ==== Candidate to intercept: /Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home/jre/lib/jspawnhelper (canonical: /Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home/jre/lib/jspawnhelper) ====
+[T 18:25:29 41000] Lua: === Intercepted call to /library/java/javavirtualmachines/amazon-corretto-8.jdk/contents/home/jre/lib/jspawnhelper ===
+[T 18:25:29 41000] Executing the following tracer actions:
+[T 18:25:29 41000] Tracer actions:
+[T 18:25:29 41000] pre_invocations(0)
+[T 18:25:29 41000] post_invocations(0)
+[T 18:25:29 41000] trace_languages(1): [java]
+[T 18:25:29 41000] Initializing tracer.
+[T 18:25:29 41000] Initialising tags...
+[T 18:25:29 41000] ID set to 000000000000A028_0000000000000002 (parent 000000000000A028_0000000000000001)
+[T 18:25:29 41000] ==== Candidate to intercept: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/macos/jdk-extractor-java/bin/java (canonical: /Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/macos/jdk-extractor-java/bin/java) ====
+[T 18:25:29 41000] Lua: === Intercepted call to /users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/macos/jdk-extractor-java/bin/java ===
+[T 18:25:29 41000] Executing the following tracer actions:
+[T 18:25:29 41000] Tracer actions:
+[T 18:25:29 41000] pre_invocations(0)
+[T 18:25:29 41000] post_invocations(0)
+[T 18:25:29 41000] trace_languages(1): [java]
+[T 18:25:29 41000] Passing through -javaagent:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar=ignore-project,java,kotlin to underlying JVM.
+[T 18:25:29 41000] Passing through -Xbootclasspath/a:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar to underlying JVM.
+[T 18:25:29 41000] Intercepted JVM creation with extra hidden args: ['-javaagent:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar=ignore-project,java,kotlin' '-Xbootclasspath/a:/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/java/tools/codeql-java-agent.jar' ] (result: 1, 0).

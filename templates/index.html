@@ -3,331 +3,702 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeQL 上传与分析</title>
-    <!-- 引入 Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>CodeQL 安全分析工具</title>
+    <!-- 引入现代UI框架和字体 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-         /* 全局样式 */
+        /* 全局样式 */
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --warning-color: #f8961e;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --transition-speed: 0.3s;
+        }
+        
         body, html {
             height: 100%;
             margin: 0;
-            font-family: 'Nunito', sans-serif;
-            background-color: #f7f7f7;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
         }
-         .navbar-nav li {
-            display: inline;
-        }
-
-        .container {
-            width: 100%;
+        
+        .container-fluid {
+            padding: 0;
             height: 100%;
             overflow: hidden;
         }
-
-        /* 顶部导航栏样式 */
+        
+        /* 导航栏样式 */
         .navbar {
-            background-color: #343a40;
-            color: white;
-            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 0.8rem 1.5rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         }
-
+        
         .navbar-brand {
-            font-size: 1rem; /* Adjusted font size */
-            padding: 0.5rem; /* Reduced padding */
+            color: white !important;
+            font-weight: 600;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
         }
-
+        
+        .navbar-nav .nav-item {
+            margin: 0 5px;
+        }
+        
         .navbar-nav .nav-link {
-                color: white;
-                padding: 1rem 1rem; /* Reduced padding */
-                transition: background 0.3s, transform 0.2s;
-                background-color: #495057; /* 深灰色背景 */
-                border-radius: 5px; /* 圆角 */
-                font-weight: 500;
-            }
-
-            .navbar-nav .nav-link:hover {
-                background-color: #007bff;
-                color: white;
-                transform: scale(1.05);
-            }
-
-            .navbar-nav .nav-link.active {
-                background-color: #0056b3; /* 深蓝色背景 */
-                color: white;
-            }
-        .navbar {
-            background-color: #343a40;
-            color: white;
-            padding: 0.2rem; /* Reduced padding */
-            border: none;
+            color: rgba(255, 255, 255, 0.9) !important;
+            padding: 0.7rem 1.2rem;
+            border-radius: 5px;
+            transition: all var(--transition-speed);
+            position: relative;
+            font-weight: 500;
         }
+        
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-nav .nav-link.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            border-radius: 3px;
+        }
+        
         /* 内容区域样式 */
         .content {
-            flex-grow: 1;
-            padding: 20px;
+            padding: 25px;
+            height: calc(100vh - 70px);
             overflow-y: auto;
-            height: calc(100vh - 60px); /* 减去导航栏高度 */
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin: 15px;
         }
-
-        .header {
-            background-color: #007bff;
+        
+        .section-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 15px;
-            font-size: 1.8em;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
-        #fileTree a.active {
-            font-weight: bold;
-            color: #007bff;
+        
+        .section-header:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(30deg);
         }
+        
+        .section-header h2 {
+            font-weight: 600;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 表单控件样式 */
         .form-control {
-            width: 100%; /* 确保宽度铺满父容器 */
-            max-width: 300px; /* 设置最大宽度 */
-            padding: 12px; /* 增加内边距 */
-            margin-bottom: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: border-color 0.3s; /* 添加边框颜色过渡 */
+            border: 1px solid #e1e5eb;
+            border-radius: 6px;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            transition: all var(--transition-speed);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+            background-color: #f9fafc;
+            margin-bottom: 15px;
         }
-
+        
         .form-control:focus {
-            border-color: #007bff; /* 聚焦时边框颜色变化 */
-            outline: none; /* 移除默认轮廓 */
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            background-color: white;
         }
-
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234361ee' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+        
+        /* 按钮样式 */
         .btn {
-            padding: 12px 15px; /* 增加按钮内边距 */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s; /* 添加缩放效果 */
-            width: 100%;
-            margin-bottom: 10px;
-            font-size: 1em; /* 增加按钮字体大小 */
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: all var(--transition-speed);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
         }
-
+        
+        .btn:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
         .btn:hover {
-            transform: scale(1.05); /* 鼠标悬停时放大 */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
-
+        
+        .btn:focus:after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
         .btn-primary {
-            background-color: #007bff;
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
         }
-
+        
         .btn-primary:hover {
-            background-color: #0056b3;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
         }
-
+        
         .btn-success {
-            background-color: #28a745;
-            color: white;
+            background: linear-gradient(135deg, #20bf55, #01baef);
+            border: none;
         }
-
+        
         .btn-success:hover {
-            background-color: #218838;
+            background: linear-gradient(135deg, #01baef, #20bf55);
         }
-
+        
         .btn-info {
-            background-color: #17a2b8;
-            color: white;
+            background: linear-gradient(135deg, #4cc9f0, #4895ef);
+            border: none;
         }
-
+        
         .btn-info:hover {
-            background-color: #138496;
+            background: linear-gradient(135deg, #4895ef, #4cc9f0);
         }
-
+        
+        /* 状态消息样式 */
         .status-message {
+            padding: 15px;
+            border-radius: 6px;
             margin-top: 20px;
-            padding: 10px;
-            border-radius: 5px;
             display: none;
-            width: 100%;
-            text-align: center;
-            font-size: 1.1em; /* 增加状态消息字体大小 */
+            animation: fadeIn 0.5s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
-
-               #fileTree a.file {
-            color: #007bff;
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        #fileTree span.folder {
-            color: #28a745;
+        
+        .status-message.success {
+            background-color: rgba(32, 191, 85, 0.1);
+            border-left: 4px solid #20bf55;
+            color: #0b6e26;
         }
-
-        #fileTree a.new-file {
-            color: #17a2b8;
-            margin-left: 10px;
+        
+        .status-message.error {
+            background-color: rgba(247, 37, 133, 0.1);
+            border-left: 4px solid #f72585;
+            color: #a01155;
         }
-
+        
+        /* 文件树样式 */
+        #fileTree {
+            background-color: #f9fafc;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e1e5eb;
+        }
+        
         #fileTree ul {
             list-style-type: none;
             padding-left: 20px;
         }
-        .status-message.success {
-            background-color: #d4edda;
-            color: #155724;
+        
+        #fileTree li {
+            margin: 5px 0;
+            position: relative;
         }
-
-        .status-message.error {
-            background-color: #f8d7da;
-            color: #721c24;
+        
+        #fileTree a.file {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all var(--transition-speed);
         }
-
-        .section-title {
-            margin-bottom: 15px;
-            font-size: 1.8em; /* 增加节标题字体大小 */
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 5px;
-            text-align: left;
+        
+        #fileTree a.file:hover {
+            background-color: rgba(67, 97, 238, 0.1);
         }
-
+        
+        #fileTree a.file.active {
+            background-color: rgba(67, 97, 238, 0.15);
+            font-weight: 500;
+        }
+        
+        #fileTree span.folder {
+            color: var(--dark-color);
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all var(--transition-speed);
+            font-weight: 500;
+        }
+        
+        #fileTree span.folder:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        #fileTree a.new-file {
+            color: var(--success-color);
+            margin-left: 10px;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: all var(--transition-speed);
+        }
+        
+        #fileTree a.new-file:hover {
+            opacity: 1;
+        }
+        
+        /* 编辑器样式 */
+        #qlEditor {
+            border: 1px solid #e1e5eb;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            height: 400px;
+            resize: vertical;
+            background-color: #f9fafc;
+            transition: all var(--transition-speed);
+        }
+        
+        #qlEditor:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            background-color: white;
+        }
+        
+        /* 表格样式 */
         table {
-            width: 100%; /* 表格宽度铺满父容器 */
-            max-width: 100%; /* 确保表格不超出容器 */
-            overflow-x: auto; /* 允许横向滚动 */
-            border-collapse: collapse; /* 合并边框 */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加表格阴影 */
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
-
-        th, td {
-            padding: 10px; /* 增加内边距 */
-            text-align: left; /* 左对齐 */
-            border: 1px solid #dee2e6; /* 添加边框 */
-            transition: background-color 0.3s; /* 添加背景颜色过渡 */
-            font-size: 0.9em; /* 缩小字体大小 */
+        
+        thead {
+            background-color: #f5f7fa;
         }
-
+        
         th {
-            background-color: #f8f9fa; /* 表头背景颜色 */
-            font-weight: bold; /* 加粗表头字体 */
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+        
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tbody tr:hover {
+            background-color: rgba(67, 97, 238, 0.03);
+        }
+        
+        /* 预览内容样式 */
+        #previewContent {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .navbar-nav .nav-item {
+                margin: 5px;
+            }
+            
+            .content {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .section-header {
+                padding: 15px;
+            }
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2; /* 偶数行背景色 */
+        /* 卡片增强样式 */
+        .card {
+            border: none;
+            border-radius: 8px;
+            transition: all var(--transition-speed);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
-
-        tr:hover {
-            background-color: #e9ecef; /* 鼠标悬停时的背景色 */
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
         }
-        .navbar-nav {
-            display: flex;
-            justify-content: flex-end; /* 水平靠右排列 */
+        
+        .card-header {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: rgba(245, 247, 250, 0.6);
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0 !important;
         }
-
-        .navbar-nav .nav-item {
-            margin-left: 15px; /* 调整间距 */
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        /* 美化滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* 加载动画 */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 标签和输入框增强 */
+        label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #495057;
+            display: block;
+        }
+        
+        /* 文件上传美化 */
+        input[type="file"] {
+            position: relative;
+        }
+        
+        input[type="file"]::file-selector-button {
+            border: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: all var(--transition-speed);
             margin-right: 15px;
+        }
+        
+        input[type="file"]::file-selector-button:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <!-- 顶部导航栏 -->
-        <nav class="navbar navbar-expand-lg">
-            <div class="collapse navbar-collapse" id="navbarNav">
+        <nav class="navbar navbar-expand">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-alt mr-2"></i>CodeQL 安全分析工具
+            </a>
+            <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="#" id="uploadTab">上传漏洞源码</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="uploadTab">
+                            <i class="fas fa-upload mr-1"></i>上传源码
+                        </a>
                     </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="#" id="analyzeTab">设置查询配置</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="analyzeTab">
+                            <i class="fas fa-cogs mr-1"></i>查询配置
+                        </a>
                     </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="#" id="resultsTab">查看分析报告</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="resultsTab">
+                            <i class="fas fa-chart-bar mr-1"></i>分析报告
+                        </a>
                     </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="#" id="customQLTab">自定义QL规则</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="customQLTab">
+                            <i class="fas fa-code mr-1"></i>自定义规则
+                        </a>
                     </li>
                 </ul>
             </div>
         </nav>
+        
+        <!-- 内容区域 -->
         <div class="content">
-           <div id="uploadSection" style="display: block;">
-                <div class="header">上传 ZIP 文件</div>
-                <input type="file" id="fileInput" class="form-control">
-                <select id="languageSelect" class="form-control">
-                    <option value="java">Java</option>
-                    <option value="python">Python</option>
-                    <option value="javascript">JavaScript</option>
-                    <option value="csharp">C#</option>
-                    <option value="cpp">C++</option>
-                    <option value="go">Go</option>
-               </select>
-                <button id="uploadButton" class="btn btn-primary">上传</button>
-                <div id="status" class="status-message"></div>
-            </div>
-
-            <div id="analyzeSection" style="display: none;">
-                <div class="header">分析数据库</div>
-                <select id="databaseSelect" class="form-control"></select>
-                <select id="querySuiteSelect" class="form-control"></select>
-                <button id="analyzeButton" class="btn btn-success">分析</button>
-                <div id="analyzeStatus" class="status-message"></div>
-            </div>
-
-            <div id="resultsSection" style="display: none;">
-                <div class="header">选择并预览分析结果</div>
-                <select id="resultSelect" class="form-control"></select>
-                <button id="previewButton" class="btn btn-info">预览</button>
-                <div id="previewContent" style="display: none;"></div>
-                <div id="resultStatus" class="status-message"></div>
-
-                <!-- 下载列表部分 -->
-                <div id="downloadList" style="display: none;">
-                    <h5>下载列表</h5>
-                    <table id="downloadTable" class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>文件名</th>
-                                <th>下载</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- 文件行将在这里动态添加 -->
-                        </tbody>
-                    </table>
+            <!-- 上传部分 -->
+            <div id="uploadSection" style="display: block;">
+                <div class="section-header">
+                    <h2><i class="fas fa-file-upload mr-2"></i>上传源代码</h2>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="fileInput"><i class="fas fa-file-archive mr-1"></i>选择ZIP文件</label>
+                                    <input type="file" id="fileInput" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="languageSelect"><i class="fas fa-code mr-1"></i>选择编程语言</label>
+                                    <select id="languageSelect" class="form-control">
+                                        <option value="java">Java</option>
+                                        <option value="python">Python</option>
+                                        <option value="javascript">JavaScript</option>
+                                        <option value="csharp">C#</option>
+                                        <option value="cpp">C++</option>
+                                        <option value="go">Go</option>
+                                    </select>
+                                </div>
+                                <button id="uploadButton" class="btn btn-primary btn-block">
+                                    <i class="fas fa-cloud-upload-alt mr-1"></i>上传并创建数据库
+                                </button>
+                                <div id="status" class="status-message"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div id="customQLSection">
-                <div class="header">自定义QL规则</div>
-                <div id="fileTree"></div>
-                <button id="loadQLButton" class="btn btn-primary">加载</button>
-                <textarea id="qlEditor" class="form-control" style="height: 400px; margin-top: 10px;"></textarea>
-                <input type="hidden" id="currentFilePath" value="">
-                <button id="saveQLButton" class="btn btn-success" style="margin-top: 10px;">保存</button>
-                <div id="qlStatus" class="status-message"></div>
+            <!-- 分析部分 -->
+            <div id="analyzeSection" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-search mr-2"></i>分析数据库</h2>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="databaseSelect"><i class="fas fa-database mr-1"></i>选择数据库</label>
+                                    <select id="databaseSelect" class="form-control"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="querySuiteSelect"><i class="fas fa-list-alt mr-1"></i>选择查询套件</label>
+                                    <select id="querySuiteSelect" class="form-control"></select>
+                                </div>
+                                <button id="analyzeButton" class="btn btn-success btn-block">
+                                    <i class="fas fa-play mr-1"></i>开始分析
+                                </button>
+                                <div id="analyzeStatus" class="status-message"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 结果部分 -->
+            <div id="resultsSection" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-clipboard-list mr-2"></i>分析结果</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="resultSelect"><i class="fas fa-file-alt mr-1"></i>选择结果文件</label>
+                                    <select id="resultSelect" class="form-control"></select>
+                                </div>
+                                <button id="previewButton" class="btn btn-info">
+                                    <i class="fas fa-eye mr-1"></i>预览结果
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="previewContent" style="display: none;"></div>
+                        <div id="resultStatus" class="status-message"></div>
+
+                        <!-- 下载列表部分 -->
+                        <div id="downloadList" style="display: none;" class="card shadow-sm mt-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="fas fa-download mr-1"></i>下载列表</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="downloadTable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>文件名</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- 文件行将在这里动态添加 -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自定义QL规则部分 -->
+            <div id="customQLSection" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-code mr-2"></i>自定义QL规则</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="fas fa-folder-open mr-1"></i>文件浏览器</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div id="fileTree" class="border-0"></div>
+                                <button id="loadQLButton" class="btn btn-primary btn-sm m-3">
+                                    <i class="fas fa-sync-alt mr-1"></i>加载文件
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="fas fa-edit mr-1"></i>代码编辑器</h5>
+                            </div>
+                            <div class="card-body">
+                                <textarea id="qlEditor" class="form-control mb-3"></textarea>
+                                <input type="hidden" id="currentFilePath" value="">
+                                <button id="saveQLButton" class="btn btn-success">
+                                    <i class="fas fa-save mr-1"></i>保存文件
+                                </button>
+                                <div id="qlStatus" class="status-message"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
     </div>
-  <!-- 引入 Bootstrap JS 和依赖 -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- 引入 JS 依赖 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     <script>
+        // 页面切换功能
         function hideAllSections() {
-                const sections = ['uploadSection', 'analyzeSection', 'resultsSection', 'customQLSection'];
-                sections.forEach(sectionId => {
-                    document.getElementById(sectionId).style.display = 'none';
-                });
-                // �移除所有nav-link的active类
-                const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-                navLinks.forEach(link => link.classList.remove('active'));
+            const sections = ['uploadSection', 'analyzeSection', 'resultsSection', 'customQLSection'];
+            sections.forEach(sectionId => {
+                document.getElementById(sectionId).style.display = 'none';
+            });
+            // 移除所有nav-link的active类
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
         }
+        
         document.getElementById('uploadTab').onclick = function() {
             hideAllSections();
             document.getElementById('uploadSection').style.display = 'block';
-            this.classList.add('active'); // 给当前点击的link添加active类
+            this.classList.add('active');
         };
 
         document.getElementById('analyzeTab').onclick = function() {
@@ -335,24 +706,25 @@
             document.getElementById('analyzeSection').style.display = 'block';
             loadDatabases();
             loadQuerySuites();
-            this.classList.add('active'); // 给当前点击的link添加active类
+            this.classList.add('active');
         };
 
         document.getElementById('resultsTab').onclick = function() {
             hideAllSections();
             document.getElementById('resultsSection').style.display = 'block';
             loadResults();
-            this.classList.add('active'); // 给当前点击的link添加active类
+            this.classList.add('active');
         };
 
         document.getElementById('customQLTab').onclick = function() {
             hideAllSections();
             document.getElementById('customQLSection').style.display = 'block';
             loadQLFiles();
-            this.classList.add('active'); // 给当前点击的link添加active类
+            this.classList.add('active');
         };
 
-                document.getElementById('uploadButton').onclick = function() {
+        // 上传功能
+        document.getElementById('uploadButton').onclick = function() {
             const fileInput = document.getElementById('fileInput');
             const languageSelect = document.getElementById('languageSelect');
             const formData = new FormData();
@@ -360,7 +732,7 @@
             formData.append('language', languageSelect.value);
 
             const statusDiv = document.getElementById('status');
-            statusDiv.innerText = "上传并解析数据库中...";
+            statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>上传并解析数据库中...';
             statusDiv.className = "status-message";
             statusDiv.style.display = "block";
 
@@ -371,26 +743,27 @@
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    statusDiv.innerText = data.error;
+                    statusDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>' + data.error;
                     statusDiv.classList.add("error");
                 } else {
-                    statusDiv.innerText = "解析数据库成功";
+                    statusDiv.innerHTML = '<i class="fas fa-check-circle mr-2"></i>解析数据库成功';
                     statusDiv.classList.add("success");
                 }
             })
             .catch(error => {
                 console.error('上传失败:', error);
-                statusDiv.innerText = `上传失败: ${error.message}`;
+                statusDiv.innerHTML = '<i class="fas fa-times-circle mr-2"></i>上传失败: ' + error.message;
                 statusDiv.classList.add("error");
             });
         };
 
+        // 分析功能
         document.getElementById('analyzeButton').onclick = function() {
             const databaseName = document.getElementById('databaseSelect').value;
             const querySuite = document.getElementById('querySuiteSelect').value;
 
             const analyzeStatusDiv = document.getElementById('analyzeStatus');
-            analyzeStatusDiv.innerText = "分析中...";
+            analyzeStatusDiv.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>分析中...';
             analyzeStatusDiv.className = "status-message";
             analyzeStatusDiv.style.display = "block";
 
@@ -404,32 +777,38 @@
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    analyzeStatusDiv.innerText = data.error;
+                    analyzeStatusDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>' + data.error;
                     analyzeStatusDiv.classList.add("error");
                 } else {
-                    analyzeStatusDiv.innerText = data.message;
+                    analyzeStatusDiv.innerHTML = '<i class="fas fa-check-circle mr-2"></i>' + data.message;
                     analyzeStatusDiv.classList.add("success");
                 }
             })
             .catch(error => {
                 console.error('分析失败:', error);
-                analyzeStatusDiv.innerText = `分析失败: ${error.message}`;
+                analyzeStatusDiv.innerHTML = '<i class="fas fa-times-circle mr-2"></i>分析失败: ' + error.message;
                 analyzeStatusDiv.classList.add("error");
             });
         };
 
-
+        // QL文件管理功能
         function loadQLFiles() {
             const fileTreeContainer = document.getElementById('fileTree');
             if (fileTreeContainer.innerHTML === '') {
+                fileTreeContainer.innerHTML = '<div class="text-center p-3"><i class="fas fa-spinner fa-spin mr-2"></i>加载中...</div>';
+                
                 fetch('/get_ql_files')
                     .then(response => response.json())
                     .then(data => {
+                        fileTreeContainer.innerHTML = '';
                         const ul = document.createElement('ul');
                         buildFileTree(data, ul);
                         fileTreeContainer.appendChild(ul);
                     })
-                    .catch(error => console.error('Error loading file tree:', error));
+                    .catch(error => {
+                        console.error('Error loading file tree:', error);
+                        fileTreeContainer.innerHTML = '<div class="text-center p-3 text-danger"><i class="fas fa-exclamation-circle mr-2"></i>加载失败</div>';
+                    });
             }
         }
 
@@ -441,19 +820,27 @@
                 if (item.type === 'folder') {
                     const span = document.createElement('span');
                     span.className = 'folder';
-                    span.innerHTML = '<i class="fas fa-folder"></i> ' + item.name;
+                    span.innerHTML = '<i class="fas fa-folder mr-1"></i> ' + item.name;
                     span.addEventListener('click', function() {
                         const ul = li.querySelector('ul');  // 通过li查找内部的ul
-                        ul.style.display = ul.style.display === 'none' ? 'block' : 'none';
+                        if (ul.style.display === 'none') {
+                            span.innerHTML = '<i class="fas fa-folder-open mr-1"></i> ' + item.name;
+                            ul.style.display = 'block';
+                        } else {
+                            span.innerHTML = '<i class="fas fa-folder mr-1"></i> ' + item.name;
+                            ul.style.display = 'none';
+                        }
                     });
                     li.appendChild(span);
 
                     const aNewFile = document.createElement('a');
                     aNewFile.className = 'new-file';
-                    aNewFile.innerHTML = '<i class="fas fa-plus"></i>';
+                    aNewFile.innerHTML = '<i class="fas fa-plus-circle"></i>';
                     aNewFile.href = '#';
+                    aNewFile.title = '创建新文件';
                     aNewFile.dataset.path = item.path;
-                    aNewFile.addEventListener('click', function() {
+                    aNewFile.addEventListener('click', function(e) {
+                        e.preventDefault();
                         createNewFile(item.path);
                     });
                     li.appendChild(aNewFile);
@@ -465,9 +852,8 @@
                 } else if (item.type === 'file') {
                     const a = document.createElement('a');
                     a.className = 'file';
-                    a.innerHTML = '<i class="fas fa-file"></i> ' + item.name;
-                    a.href = '/download_file/' + encodeURIComponent(item.path);
-                    a.target = '_blank';
+                    a.innerHTML = '<i class="fas fa-file-code mr-1"></i> ' + item.name;
+                    a.href = '#';
                     a.dataset.path = item.path;
                     a.addEventListener('click', function(event) {
                         event.preventDefault();
@@ -504,33 +890,45 @@
         }
 
         function highlightSelectedFile(currentFile) {
-            const allFiles = document.querySelectorAll('#fileTree a');
+            const allFiles = document.querySelectorAll('#fileTree a.file');
             allFiles.forEach(file => file.classList.remove('active'));
             currentFile.classList.add('active');
         }
+        
         function loadFileContent(filePath) {
             console.log('Loading content for', filePath);
+            document.getElementById('qlEditor').value = '// 加载中...';
+            
             fetch('/get_ql_content?file=' + encodeURIComponent(filePath))
                 .then(response => response.text())
                 .then(content => {
                     document.getElementById('qlEditor').value = content;
                     document.getElementById('currentFilePath').value = filePath;
                 })
-                .catch(error => console.error('Error loading file content:', error));
+                .catch(error => {
+                    console.error('Error loading file content:', error);
+                    document.getElementById('qlEditor').value = '// 加载失败: ' + error.message;
+                });
         }
+        
         document.getElementById('loadQLButton').onclick = function() {
-            const selectedFile = document.getElementById('qlFileSelect').value;
-            fetch('/get_ql_content?file=' + encodeURIComponent(selectedFile))
-                .then(response => response.text())
-                .then(content => {
-                    document.getElementById('qlEditor').value = content;
-                })
-                .catch(error => console.error('Error loading QL content:', error));
+            loadQLFiles();
         };
 
         document.getElementById('saveQLButton').onclick = function() {
             const selectedFile = document.getElementById('currentFilePath').value;
+            if (!selectedFile) {
+                alert('请先选择一个文件');
+                return;
+            }
+            
             const content = document.getElementById('qlEditor').value;
+            const qlStatusDiv = document.getElementById('qlStatus');
+            
+            qlStatusDiv.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>保存中...';
+            qlStatusDiv.className = "status-message";
+            qlStatusDiv.style.display = "block";
+            
             fetch('/save_ql_file', {
                 method: 'POST',
                 headers: {
@@ -541,57 +939,85 @@
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    document.getElementById('qlStatus').innerText = data.error;
-                    document.getElementById('qlStatus').classList.add("error");
+                    qlStatusDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>' + data.error;
+                    qlStatusDiv.classList.add("error");
                 } else {
-                    document.getElementById('qlStatus').innerText = data.message;
-                    document.getElementById('qlStatus').classList.add("success");
+                    qlStatusDiv.innerHTML = '<i class="fas fa-check-circle mr-2"></i>' + data.message;
+                    qlStatusDiv.classList.add("success");
                 }
-                document.getElementById('qlStatus').style.display = 'block';
             })
-            .catch(error => console.error('Error saving QL file:', error));
+            .catch(error => {
+                console.error('Error saving QL file:', error);
+                qlStatusDiv.innerHTML = '<i class="fas fa-times-circle mr-2"></i>保存失败: ' + error.message;
+                qlStatusDiv.classList.add("error");
+            });
         };
+        
+        // 数据库和查询套件加载
         function loadDatabases() {
+            const databaseSelect = document.getElementById('databaseSelect');
+            databaseSelect.innerHTML = '<option value="">加载中...</option>';
+            
             fetch('/choose_databases')
                 .then(response => response.json())
                 .then(databases => {
-                    const databaseSelect = document.getElementById('databaseSelect');
                     databaseSelect.innerHTML = '';
-                    databases.forEach(db => {
+                    if (databases.length === 0) {
                         const option = document.createElement('option');
-                        option.value = db;
-                        option.textContent = db;
+                        option.disabled = true;
+                        option.textContent = '没有可用的数据库';
                         databaseSelect.appendChild(option);
-                    });
+                    } else {
+                        databases.forEach(db => {
+                            const option = document.createElement('option');
+                            option.value = db;
+                            option.textContent = db;
+                            databaseSelect.appendChild(option);
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('加载数据库失败:', error);
+                    databaseSelect.innerHTML = '<option value="">加载失败</option>';
                 });
         }
 
         function loadQuerySuites() {
+            const suiteSelect = document.getElementById('querySuiteSelect');
+            suiteSelect.innerHTML = '<option value="">加载中...</option>';
+            
             fetch('/choose_query_suites')
                 .then(response => response.json())
                 .then(suites => {
-                    const suiteSelect = document.getElementById('querySuiteSelect');
                     suiteSelect.innerHTML = '';
-                    suites.forEach(suite => {
+                    if (suites.length === 0) {
                         const option = document.createElement('option');
-                        option.value = suite;
-                        option.textContent = suite;
+                        option.disabled = true;
+                        option.textContent = '没有可用的查询套件';
                         suiteSelect.appendChild(option);
-                    });
+                    } else {
+                        suites.forEach(suite => {
+                            const option = document.createElement('option');
+                            option.value = suite;
+                            option.textContent = suite;
+                            suiteSelect.appendChild(option);
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('加载查询套件失败:', error);
+                    suiteSelect.innerHTML = '<option value="">加载失败</option>';
                 });
         }
 
+        // 结果加载和预览
         function loadResults() {
+            const resultSelect = document.getElementById('resultSelect');
+            resultSelect.innerHTML = '<option value="">加载中...</option>';
+            
             fetch('/choose_results')
                 .then(response => response.json())
                 .then(data => {
-                    const resultSelect = document.getElementById('resultSelect');
                     resultSelect.innerHTML = '';
                     const downloadTableBody = document.getElementById('downloadTable').getElementsByTagName('tbody')[0];
                     downloadTableBody.innerHTML = '';
@@ -607,8 +1033,8 @@
                             const cell1 = row.insertCell(0);
                             const cell2 = row.insertCell(1);
 
-                            cell1.innerHTML = result;
-                            cell2.innerHTML = `<a href="/download_result/${result}" class="btn btn-primary btn-sm">下载</a>`;
+                            cell1.innerHTML = '<i class="fas fa-file-alt mr-2"></i>' + result;
+                            cell2.innerHTML = `<a href="/download_result/${result}" class="btn btn-sm btn-primary"><i class="fas fa-download mr-1"></i>下载</a>`;
                         });
 
                         document.getElementById('downloadList').style.display = 'block';
@@ -622,8 +1048,9 @@
                 })
                 .catch(error => {
                     console.error('加载结果文件失败:', error);
+                    resultSelect.innerHTML = '<option value="">加载失败</option>';
                     const statusDiv = document.getElementById('resultStatus');
-                    statusDiv.innerText = '加载结果文件失败';
+                    statusDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>加载结果文件失败';
                     statusDiv.classList.add("error");
                     statusDiv.style.display = "block";
                 });
@@ -637,36 +1064,45 @@
             }
 
             const previewContent = document.getElementById('previewContent');
-            previewContent.innerHTML = '';
-            previewContent.style.display = 'none';
-
-            const loadingMessage = document.createElement('p');
-            loadingMessage.innerText = '加载中...';
-            previewContent.appendChild(loadingMessage);
+            previewContent.innerHTML = '<div class="text-center p-4"><i class="fas fa-spinner fa-spin mr-2"></i>加载中...</div>';
             previewContent.style.display = 'block';
 
             fetch('/preview_result/' + selectedResult)
                 .then(response => response.json())
                 .then(data => {
-                    previewContent.removeChild(loadingMessage);
+                    previewContent.innerHTML = '';
 
                     if (data.error) {
-                        const errorMessage = document.createElement('p');
-                        errorMessage.innerText = data.error;
-                        previewContent.appendChild(errorMessage);
+                        previewContent.innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-circle mr-2"></i>${data.error}</div>`;
                         return;
                     }
 
                     // 创建表格
+                    const tableContainer = document.createElement('div');
+                    tableContainer.className = 'table-responsive';
+                    
                     const table = document.createElement('table');
-                    table.className = 'table table-striped table-bordered';
-                    table.style.width = '100%'; // 确保表格宽度铺满
+                    table.className = 'table table-striped';
+                    
+                    // 创建表头
+                    const thead = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    
+                    ['漏洞名称', '描述', '详情', '文件路径', '行号', '起始列', '结束行', '结束列', 'AI分析'].forEach(header => {
+                        const th = document.createElement('th');
+                        th.innerText = header;
+                        headerRow.appendChild(th);
+                    });
+                    
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+                    
                     // 创建表体
                     const tbody = document.createElement('tbody');
 
                     data.forEach(row => {
                         const tr = document.createElement('tr');
-                        ['Vulnerability Name', 'Description','Details', 'File Path', 'Line Number','Start Column','End Line','End Column','ai_analyze'].forEach(key => {
+                        ['Vulnerability Name', 'Description', 'Details', 'File Path', 'Line Number', 'Start Column', 'End Line', 'End Column', 'ai_analyze'].forEach(key => {
                             const td = document.createElement('td');
                             td.innerText = row[key] || '';
                             tr.appendChild(td);
@@ -675,18 +1111,16 @@
                     });
 
                     table.appendChild(tbody);
-                    previewContent.appendChild(table);
-                    previewContent.style.display = 'block';
+                    tableContainer.appendChild(table);
+                    previewContent.appendChild(tableContainer);
                 })
                 .catch(error => {
                     console.error('预览失败:', error);
-                    const statusDiv = document.getElementById('resultStatus');
-                    statusDiv.innerText = '预览失败: ' + error.message;
-                    statusDiv.classList.add("error");
-                    statusDiv.style.display = "block";
+                    previewContent.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times-circle mr-2"></i>预览失败: ${error.message}</div>`;
                 });
         };
 
+        // 初始化页面
         document.getElementById('uploadTab').click();
     </script>
 </body>

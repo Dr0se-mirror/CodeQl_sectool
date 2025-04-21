@@ -1,0 +1,65 @@
+Vulnerability Name,Description,Severity,Details,File Path,Line Number,Start Column,End Line,End Column,ai_analyze
+Failure to use secure cookies,"Insecure cookies may be sent in cleartext, which makes them vulnerable to interception.",error,Cookie is added to response without the 'secure' flag being set.,/src/main/java/com/summersec/shiroctf/controller/IndexController.java,63,13,63,38,"漏洞分析：
+
+漏洞名称：未使用安全Cookie（Failure to use secure cookies）
+
+漏洞描述：该漏洞存在于IndexController类的index方法中。代码在创建和设置Cookie时，没有将secure标志设置为true。这意味着Cookie将通过未加密的HTTP连接传输，容易被中间人攻击者拦截，导致敏感信息泄露。
+
+漏洞位置：代码第63行附近，具体是在创建Cookie并添加到响应时的代码段：
+cookie = new Cookie(""hacker"", Tools.base64Encode(Tools.serialize(user)));
+response.addCookie(cookie);
+
+风险等级：错误（error）
+
+影响：当secure标志未设置时，Cookie会通过HTTP明文传输，攻击者可以：
+1. 通过中间人攻击窃取Cookie
+2. 获取用户会话信息
+3. 可能进行会话劫持
+
+修复建议：在创建Cookie后，添加以下设置：
+1. 设置secure标志为true：cookie.setSecure(true);
+2. 建议同时设置HttpOnly标志：cookie.setHttpOnly(true);
+3. 如果适用，设置SameSite属性
+
+修复后的代码示例：
+cookie = new Cookie(""hacker"", Tools.base64Encode(Tools.serialize(user)));
+cookie.setSecure(true);
+cookie.setHttpOnly(true);
+response.addCookie(cookie);
+
+额外建议：
+1. 考虑对Cookie内容进行加密
+2. 实施HTTPS以确保安全传输
+3. 定期轮换加密密钥"
+Deserialization of user-controlled data,Deserializing user-controlled data may allow attackers to execute arbitrary code.,error,"Unsafe deserialization of [[""user input""|""relative:///src/main/java/com/summersec/shiroctf/controller/IndexController.java:54:47:54:63""]].",/src/main/java/com/summersec/shiroctf/Tools/Tools.java,38,16,38,33,"这是一个严重的反序列化漏洞分析：
+
+漏洞名称：用户可控数据的反序列化
+
+描述：该漏洞允许攻击者通过反序列化用户控制的数据来执行任意代码，属于高危漏洞。
+
+漏洞位置：在Tools.java文件中的deserialize方法（第38行附近）
+
+漏洞分析：
+1. 核心问题在于deserialize方法直接对用户输入的序列化数据进行反序列化，没有进行任何安全校验
+2. 当攻击者构造恶意的序列化数据时，可以在反序列化过程中触发任意代码执行
+3. 该类还包含一个exeCmd方法，能够执行系统命令，如果与反序列化漏洞结合可能造成更严重的后果
+
+风险影响：
+- 远程代码执行（RCE）
+- 系统完全沦陷
+- 数据泄露
+- 服务器被植入后门
+
+修复建议：
+1. 避免反序列化用户可控数据
+2. 如果必须反序列化，应该：
+   - 使用白名单验证反序列化的类
+   - 使用安全的替代方案如JSON
+   - 实现严格的输入验证
+3. 移除或限制exeCmd方法的使用
+4. 使用Java 9+提供的反序列化过滤器
+
+额外发现：
+该类还包含一个潜在危险的方法exeCmd，能够直接执行系统命令，这本身也是一个安全风险点。建议对该方法进行严格权限控制或移除。
+
+这个漏洞需要立即修复，因为反序列化漏洞经常被用来实现远程代码执行，危害性极大。"

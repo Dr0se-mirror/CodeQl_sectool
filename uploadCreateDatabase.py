@@ -6,11 +6,36 @@ import subprocess
 UPLOAD_FOLDER = './uploads/'
 EXTRACT_FOLDER = './extracted/'
 DATABASE_FOLDER = './databases/'
+CODEQL_PATH = '/Users/dr0se/codeql-tools/codeql-2.13.0/codeql/codeql'  # 使用CodeQL 2.13.0版本
 
 # 确保上传、解压和数据库目录存在
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(EXTRACT_FOLDER, exist_ok=True)
 os.makedirs(DATABASE_FOLDER, exist_ok=True)
+
+def find_source_root(extract_path):
+    """
+    查找实际的源代码根目录
+    如果存在嵌套目录且包含源代码标志文件(如pom.xml)，则返回该目录
+    否则返回原始解压目录
+    """
+    # 检查当前目录是否包含源代码标志文件
+    if os.path.exists(os.path.join(extract_path, 'pom.xml')) or \
+       os.path.exists(os.path.join(extract_path, 'build.gradle')) or \
+       os.path.exists(os.path.join(extract_path, 'src')):
+        return extract_path
+    
+    # 检查一级子目录
+    for item in os.listdir(extract_path):
+        item_path = os.path.join(extract_path, item)
+        if os.path.isdir(item_path):
+            if os.path.exists(os.path.join(item_path, 'pom.xml')) or \
+               os.path.exists(os.path.join(item_path, 'build.gradle')) or \
+               os.path.exists(os.path.join(item_path, 'src')):
+                return item_path
+    
+    # 如果没有找到明确的源代码目录，返回原始目录
+    return extract_path
 
 def upload_file(file, language):
     if file.filename == '':
@@ -39,8 +64,18 @@ def upload_file(file, language):
         zip_ref.extractall(extract_path)
     print("解压完成。")
 
+    # 查找实际的源代码根目录
+    source_root = find_source_root(extract_path)
+    print(f"使用源代码根目录: {source_root}")
+
     # 调用 CodeQL 创建数据库
-    command = f'codeql database create "{database_path}" --language={language} --source-root="{extract_path}"'
+    if language.lower() == 'java':
+        # 对于Java项目，使用CodeQL 2.13.0版本
+        command = f'{CODEQL_PATH} database create "{database_path}" --language={language} --source-root="{source_root}"'
+    else:
+        # 对于其他语言，使用原来的命令
+        command = f'{CODEQL_PATH} database create "{database_path}" --language={language} --source-root="{source_root}"'
+    
     print(f"正在生成数据库: {database_name}...")
     print("创建数据库命令:", command)  # 打印创建数据库命令以调试
     try:
@@ -70,7 +105,7 @@ def analyze_database(database_name, queries_path):
         return {'error': '数据库不存在'}, 400
 
     # 调用 CodeQL 分析
-    command = f'codeql database analyze "{database_path}" "{queries_path}" --format=sarif --output=results.sarif'
+    command = f'{CODEQL_PATH} database analyze "{database_path}" "{queries_path}" --format=sarif --output=results.sarif'
     print(f"正在分析数据库: {database_name}...")
     try:
         subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

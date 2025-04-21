@@ -1,0 +1,6 @@
+// ... existing code ...
+. "$HOME/.local/bin/env"
+export PATH=$PATH:$HOME/codeql-tools/codeql-2.13.0
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home
+export PATH=$JAVA_HOME/bin:$PATH
+// ... existing code ...

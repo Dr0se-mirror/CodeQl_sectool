@@ -22,9 +22,38 @@ def choose_results():
     return jsonify({'results': results}), 200
 
 
-@check_results_bp.route('/preview_result/<filename>', methods=['GET'])
-def preview_result(filename):
-    """预览指定的分析结果文件内容"""
+@check_results_bp.route('/preview_result', methods=['GET'])
+def preview_result():
+    """预览指定的分析结果文件内容（通过查询参数）"""
+    filename = request.args.get('filename')
+    if not filename:
+        return jsonify({'error': '未提供文件名参数'}), 400
+    results_folder = './results/'
+    file_path = os.path.join(results_folder, filename)
+    if not os.path.exists(file_path):
+        return jsonify({'error': '文件不存在'}), 404
+    # 定义CSV文件的字段名
+    fieldnames = [
+        "Vulnerability Name",
+        "Description",
+        "Severity",
+        "Details",
+        "File Path",
+        "Line Number",
+        "ai_analyze",
+        "Start Column",
+        "End Line",
+        "End Column"
+    ]
+    # 读取CSV文件内容并转换为JSON
+    with open(file_path, 'r', newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f, fieldnames=fieldnames)
+        data = [row for row in reader]
+    return jsonify(data), 200
+
+@check_results_bp.route('/preview_result/<path:filename>', methods=['GET'])
+def preview_result_with_filename(filename):
+    """预览指定的分析结果文件内容（通过URL路径参数）"""
     results_folder = './results/'
     file_path = os.path.join(results_folder, filename)
     if not os.path.exists(file_path):
@@ -89,15 +118,34 @@ def ai_analyze():
                 file_path_vuln = row.get("File Path", "")
                 line_number = row.get("Line Number", "")
 
-                # 构造本地文件路径，去掉项目名称部分
-                # 假设项目名称在文件名中，且文件名格式为“项目名称_其他信息.csv”
+                # 构造相对文件路径
+                # 假设项目名称在文件名中，且文件名格式为"项目名称_其他信息.csv"
                 project_name = filename.split('database')[0]
-                relative_path = file_path_vuln.replace(project_name, '', 1).lstrip('/')
-                local_file_path = 'D://CodeQl_sectool/extracted/'+project_name+'/'+project_name+'/'+relative_path
-                local_file_path=local_file_path.replace('/', '\\')
-                # 检查文件路径是否合法
+                
+                # 尝试多种路径构建方式
+                # 1. 直接使用文件路径，去掉开头的斜杠
+                file_path_clean = file_path_vuln.lstrip('/')
+                local_file_path = os.path.join('./extracted', project_name, file_path_clean)
+                
+                # 规范化路径（处理不同操作系统的路径分隔符）
                 local_file_path = os.path.normpath(local_file_path)
-                # print(local_file_path)
+                
+                print(f"尝试读取文件: {local_file_path}")
+                
+                # 如果文件不存在，尝试其他路径构建方式
+                if not os.path.exists(local_file_path):
+                    # 2. 尝试直接在extracted/project_name下查找
+                    local_file_path = os.path.join('./extracted', project_name, 'src', file_path_clean.split('src/')[-1] if 'src/' in file_path_clean else file_path_clean)
+                    local_file_path = os.path.normpath(local_file_path)
+                    print(f"尝试备选路径1: {local_file_path}")
+                
+                # 如果文件仍不存在，尝试第三种方式
+                if not os.path.exists(local_file_path):
+                    # 3. 尝试在extracted目录下直接查找，不使用project_name
+                    local_file_path = os.path.join('./extracted', file_path_clean)
+                    local_file_path = os.path.normpath(local_file_path)
+                    print(f"尝试备选路径2: {local_file_path}")
+                
                 if os.path.exists(local_file_path):
                     try:
                         with open(local_file_path, 'r', encoding='utf-8') as code_file:
@@ -105,8 +153,7 @@ def ai_analyze():
                     except Exception as e:
                         code_content = f"读取代码文件失败: {str(e)}"
                 else:
-                    # print(local_file_path)
-                    code_content = "代码文件不存在"
+                    code_content = f"代码文件不存在: {local_file_path}"
 
                     # 调用DeepSeek v3 API进行分析
                     # 调用 DeepSeek API 进行分析

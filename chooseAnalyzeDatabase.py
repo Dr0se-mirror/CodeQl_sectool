@@ -47,7 +47,8 @@ def analyze_database_route():
 
     start_time = time.time()
 
-    command = f'codeql database analyze "{database_path}" "{query_suite_path}" --format=csv --output="{output_file_path}" --sarif-add-baseline-file-info'
+    codeql_path = os.path.expanduser("~/codeql-tools/codeql-2.13.0/codeql/codeql")
+    command = f'{codeql_path} database analyze "{database_path}" "{query_suite_path}" --format=csv --output="{output_file_path}" --sarif-add-baseline-file-info'
     print(command)
 
     with tqdm(total=100, desc="分析进度", bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt}") as pbar:
@@ -62,7 +63,7 @@ def analyze_database_route():
             print(error_message)
             return {'error': error_message}, 400
 
-@choose_analyze_bp.route('/download_result/<filename>', methods=['GET'])
+@choose_analyze_bp.route('/download_result/<path:filename>', methods=['GET'])
 def download_result(filename):
     results_folder = './results/'
     file_path = os.path.join(results_folder, filename)
